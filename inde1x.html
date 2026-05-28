@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBLX VOID — Скрипты для Roblox</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Exo+2:wght@200;400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --void:#00000c;
+  --cyan:#00f5ff;
+  --violet:#8b5cf6;
+  --magenta:#f472b6;
+  --green:#39ff14;
+  --gold:#fbbf24;
+  --red:#ff4444;
+  --surface:rgba(255,255,255,0.03);
+  --border:rgba(255,255,255,0.07);
+  --border-glow:rgba(0,245,255,0.25);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--void);color:#e8f0ff;font-family:'Exo 2',sans-serif;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur{position:fixed;width:10px;height:10px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 15px var(--cyan),0 0 30px var(--cyan);transition:transform .1s,width .2s,height .2s,background .2s;}
+#cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .15s ease;}
+body:has(button:hover) #cur,body:has(a:hover) #cur{width:20px;height:20px;background:var(--magenta);box-shadow:0 0 20px var(--magenta);}
+
+/* CANVAS BG */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.nebula{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 15% 25%,rgba(139,92,246,.1) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 70% at 85% 75%,rgba(0,245,255,.07) 0%,transparent 55%),
+             radial-gradient(ellipse 90% 40% at 50% 110%,rgba(244,114,182,.07) 0%,transparent 50%);
+  animation:nebDrift 18s ease-in-out infinite alternate;}
+@keyframes nebDrift{0%{opacity:.7;transform:scale(1)}100%{opacity:1;transform:scale(1.05)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,0,12,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);}
+.logo{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;letter-spacing:.35em;
+  background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-decoration:none;cursor:none;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  text-decoration:none;color:rgba(232,240,255,.45);transition:color .3s;cursor:none;}
+.nav-links a:hover{color:var(--cyan);}
+.nav-badge{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
+  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.2em;padding:5px 14px;border-radius:50px;text-decoration:none;cursor:none;}
+
+/* SECTIONS */
+section{position:relative;z-index:1;}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:8rem 2rem 4rem;overflow:hidden;}
+.hero-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--green);margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s .2s forwards;
+  display:flex;align-items:center;gap:.8rem;justify-content:center;}
+.hero-tag::before,.hero-tag::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--green));}
+.hero-tag::after{transform:rotate(180deg);}
+.hero-h1{font-family:'Orbitron',sans-serif;font-size:clamp(3rem,11vw,9rem);font-weight:900;line-height:.85;
+  background:linear-gradient(135deg,#fff 0%,var(--cyan) 35%,var(--violet) 65%,var(--magenta) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 50px rgba(0,245,255,.25));letter-spacing:-.02em;
+  opacity:0;animation:fadeUp 1s .4s forwards;}
+.hero-sub{font-size:clamp(.95rem,2vw,1.3rem);font-weight:200;color:rgba(232,240,255,.5);
+  margin-top:1.2rem;letter-spacing:.12em;opacity:0;animation:fadeUp 1s .7s forwards;}
+.hero-stats{display:flex;gap:3rem;margin-top:3rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 1s 1s forwards;}
+.hstat{text-align:center;}
+.hstat-n{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;
+  background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hstat-l{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,240,255,.35);margin-top:.25rem;}
+.hero-cta{display:flex;gap:1.2rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp 1s 1.2s forwards;}
+.btn{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.9rem 2.2rem;border-radius:8px;text-decoration:none;cursor:none;border:none;transition:all .3s;}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
+  box-shadow:0 0 30px rgba(0,245,255,.3);}
+.btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(0,245,255,.5);}
+.btn-ghost{border:1px solid rgba(0,245,255,.3);color:var(--cyan);background:rgba(0,245,255,.04);}
+.btn-ghost:hover{background:rgba(0,245,255,.1);border-color:var(--cyan);transform:translateY(-3px);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+/* scroll hint */
+.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.4em;color:rgba(0,245,255,.4);
+  text-transform:uppercase;animation:bounceY 2.5s ease-in-out infinite;opacity:0;animation:fadeUp 1s 2s forwards,bounceY 2.5s 3s infinite;}
+@keyframes bounceY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
+.arr-svg{width:20px;height:20px;stroke:rgba(0,245,255,.4);fill:none;stroke-width:1.5;}
+
+/* divider */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),var(--magenta),transparent);
+  opacity:.3;position:relative;z-index:1;}
+
+/* ===== SCRIPTS SECTION ===== */
+#scripts{padding:7rem 2rem;}
+.sec-hd{text-align:center;margin-bottom:4rem;}
+.sec-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--magenta);display:block;margin-bottom:.8rem;}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;
+  background:linear-gradient(135deg,#fff,rgba(232,240,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+.scripts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto;}
+.script-card{border:1px solid var(--border);border-radius:16px;background:var(--surface);
+  overflow:hidden;transition:all .4s cubic-bezier(.23,1,.32,1);cursor:none;position:relative;}
+.script-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s;border-radius:16px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(0,245,255,.07) 0%,transparent 65%);}
+.script-card:hover{transform:translateY(-10px);border-color:rgba(0,245,255,.3);}
+.script-card:hover::before{opacity:1;}
+.card-top{padding:1.5rem 1.5rem 0;display:flex;align-items:flex-start;justify-content:space-between;}
+.game-badge{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  padding:4px 12px;border-radius:50px;}
+.badge-blue{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2);}
+.badge-purple{background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.2);}
+.badge-green{background:rgba(57,255,20,.08);color:var(--green);border:1px solid rgba(57,255,20,.2);}
+.badge-gold{background:rgba(251,191,36,.08);color:var(--gold);border:1px solid rgba(251,191,36,.2);}
+.badge-red{background:rgba(255,68,68,.08);color:var(--red);border:1px solid rgba(255,68,68,.2);}
+.free-tag{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--green);}
+.card-body{padding:1.2rem 1.5rem;}
+.card-game{font-size:.75rem;color:rgba(232,240,255,.4);letter-spacing:.1em;margin-bottom:.4rem;}
+.card-name{font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;color:#fff;margin-bottom:.7rem;}
+.card-desc{font-size:.85rem;color:rgba(232,240,255,.5);line-height:1.65;font-weight:200;}
+.card-features{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
+.feat{font-family:'Share Tech Mono',monospace;font-size:.7rem;padding:3px 10px;border-radius:4px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(232,240,255,.5);}
+.card-footer{padding:1rem 1.5rem 1.5rem;display:flex;gap:.8rem;}
+.copy-btn{flex:1;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
+  border:none;border-radius:8px;padding:.75rem;cursor:none;font-family:'Orbitron',sans-serif;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;}
+.copy-btn:hover{opacity:.85;transform:scale(.98);}
+.copy-btn.copied{background:linear-gradient(135deg,var(--green),#0f9);color:#000;}
+.view-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);color:rgba(232,240,255,.5);
+  border-radius:8px;padding:.75rem 1rem;cursor:none;font-family:'Orbitron',sans-serif;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;white-space:nowrap;}
+.view-btn:hover{border-color:rgba(0,245,255,.3);color:var(--cyan);}
+
+/* CODE BLOCK */
+.code-block{display:none;background:rgba(0,0,0,.6);border-top:1px solid var(--border);
+  padding:1rem 1.5rem;font-family:'Share Tech Mono',monospace;font-size:.72rem;
+  color:var(--green);line-height:1.7;max-height:160px;overflow-y:auto;word-break:break-all;
+  scrollbar-width:thin;scrollbar-color:rgba(0,245,255,.2) transparent;}
+.code-block.open{display:block;}
+
+/* ===== QUIZ SECTION ===== */
+#quiz{padding:7rem 2rem;}
+.quiz-wrap{max-width:780px;margin:0 auto;}
+.quiz-box{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:20px;
+  padding:3rem;position:relative;overflow:hidden;}
+.quiz-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),var(--magenta),transparent);}
+.quiz-step{display:none;}
+.quiz-step.active{display:block;}
+.quiz-progress{display:flex;gap:.4rem;margin-bottom:2rem;}
+.qp-dot{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.08);transition:background .4s;}
+.qp-dot.done{background:var(--cyan);}
+.qp-dot.active{background:linear-gradient(90deg,var(--cyan),var(--violet));}
+.quiz-q{font-family:'Orbitron',sans-serif;font-size:clamp(.9rem,2.5vw,1.3rem);font-weight:700;
+  color:#fff;margin-bottom:.5rem;}
+.quiz-hint{font-size:.8rem;color:rgba(232,240,255,.4);margin-bottom:2rem;font-weight:200;}
+.quiz-options{display:grid;gap:.75rem;}
+.qopt{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:1rem 1.4rem;cursor:none;text-align:left;
+  display:flex;align-items:center;gap:1rem;transition:all .3s;width:100%;}
+.qopt:hover{background:rgba(0,245,255,.06);border-color:rgba(0,245,255,.3);transform:translateX(6px);}
+.qopt.selected{background:rgba(0,245,255,.1);border-color:var(--cyan);color:#fff;}
+.qopt-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;background:rgba(255,255,255,.05);}
+.qopt-text{font-family:'Exo 2',sans-serif;font-size:.9rem;color:rgba(232,240,255,.75);}
+.qopt-sub{font-size:.75rem;color:rgba(232,240,255,.35);margin-top:.15rem;}
+.quiz-nav{display:flex;gap:.8rem;margin-top:2rem;}
+
+/* RESULT */
+.quiz-result{text-align:center;}
+.result-icon{font-size:3.5rem;margin-bottom:1rem;display:block;}
+.result-title{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:.5rem;}
+.result-sub{font-size:.9rem;color:rgba(232,240,255,.5);margin-bottom:2rem;line-height:1.7;}
+.result-scripts{display:grid;gap:.75rem;text-align:left;margin-bottom:2rem;}
+.rs-item{background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);
+  border-radius:10px;padding:.9rem 1.2rem;display:flex;align-items:center;gap:.9rem;}
+.rs-icon{font-size:1.2rem;width:36px;text-align:center;}
+.rs-name{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--cyan);}
+.rs-game{font-size:.72rem;color:rgba(232,240,255,.35);margin-top:.15rem;}
+.restart-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);color:rgba(232,240,255,.5);
+  border-radius:8px;padding:.7rem 1.5rem;cursor:none;font-family:'Orbitron',sans-serif;
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;}
+.restart-btn:hover{border-color:var(--violet);color:#a78bfa;}
+
+/* ===== FAQ ===== */
+#faq{padding:7rem 2rem;}
+.faq-list{max-width:780px;margin:0 auto;display:grid;gap:.75rem;}
+.faq-item{border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .3s;}
+.faq-item.open{border-color:rgba(0,245,255,.25);}
+.faq-q{width:100%;background:rgba(255,255,255,.02);border:none;padding:1.2rem 1.5rem;
+  cursor:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  text-align:left;transition:background .3s;}
+.faq-q:hover{background:rgba(0,245,255,.04);}
+.faq-qt{font-family:'Exo 2',sans-serif;font-size:.9rem;font-weight:600;color:rgba(232,240,255,.8);}
+.faq-arrow{width:20px;height:20px;flex-shrink:0;stroke:rgba(0,245,255,.5);fill:none;
+  stroke-width:1.5;transition:transform .35s;}
+.faq-item.open .faq-arrow{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.23,1,.32,1),padding .4s;}
+.faq-item.open .faq-a{max-height:300px;padding:0 1.5rem 1.2rem;}
+.faq-at{font-size:.85rem;color:rgba(232,240,255,.5);line-height:1.75;font-weight:200;}
+.faq-at code{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--cyan);
+  background:rgba(0,245,255,.08);padding:1px 6px;border-radius:4px;}
+
+/* ===== EXECUTOR SECTION ===== */
+#executor{padding:5rem 2rem 7rem;}
+.exec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.2rem;max-width:1000px;margin:0 auto;}
+.exec-card{border:1px solid var(--border);border-radius:14px;padding:1.8rem;
+  background:var(--surface);text-align:center;transition:all .4s;cursor:none;}
+.exec-card:hover{border-color:rgba(139,92,246,.4);transform:translateY(-6px);}
+.exec-logo{font-size:2.2rem;margin-bottom:.8rem;display:block;}
+.exec-name{font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+.exec-tags{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.8rem;}
+.exec-t{font-size:.65rem;font-family:'Share Tech Mono',monospace;padding:2px 8px;border-radius:4px;}
+.t-free{background:rgba(57,255,20,.08);color:var(--green);border:1px solid rgba(57,255,20,.2);}
+.t-pc{background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.2);}
+.t-mob{background:rgba(244,114,182,.08);color:var(--magenta);border:1px solid rgba(244,114,182,.2);}
+.t-paid{background:rgba(251,191,36,.08);color:var(--gold);border:1px solid rgba(251,191,36,.2);}
+
+/* FOOTER */
+footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);z-index:1;position:relative;}
+.f-logo{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;letter-spacing:.4em;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.f-warn{font-size:.72rem;color:rgba(232,240,255,.2);margin-top:1.2rem;line-height:1.7;letter-spacing:.05em;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:1000;
+  background:rgba(0,0,12,.95);border:1px solid rgba(0,245,255,.3);
+  border-radius:10px;padding:.9rem 1.4rem;
+  font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--cyan);
+  transform:translateY(20px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:650px){
+  nav{padding:1rem 1.2rem;}
+  .nav-links{display:none;}
+  .quiz-box{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+<canvas id="bg"></canvas>
+<div class="nebula"></div>
+<div class="toast" id="toast">📋 Скопировано в буфер обмена!</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">RBLX VOID</a>
+  <ul class="nav-links">
+    <li><a href="#scripts">Скрипты</a></li>
+    <li><a href="#quiz">Подбор</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#executor">Executor</a></li>
+  </ul>
+  <a href="#quiz" class="nav-badge">Подобрать скрипт</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-tag">Лучшие скрипты для Roblox 2025</p>
+  <h1 class="hero-h1">RBLX<br>VOID</h1>
+  <p class="hero-sub">Скрипты · Гайды · Квизы · Executors</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">240+</div><div class="hstat-l">скриптов</div></div>
+    <div class="hstat"><div class="hstat-n">18</div><div class="hstat-l">игр</div></div>
+    <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">бесплатно</div></div>
+    <div class="hstat"><div class="hstat-n">ежедн.</div><div class="hstat-l">обновления</div></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#scripts" class="btn btn-primary">Смотреть скрипты</a>
+    <a href="#quiz" class="btn btn-ghost">Подобрать под игру →</a>
+  </div>
+  <div class="scroll-arrow">
+    ↓ Скролл
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCRIPTS -->
+<section id="scripts">
+  <div class="sec-hd">
+    <span class="sec-tag">Каталог</span>
+    <h2 class="sec-title">Популярные скрипты</h2>
+  </div>
+  <div class="scripts-grid" id="scripts-grid">
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-blue">Blox Fruits</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Blox Fruits</div>
+        <div class="card-name">AutoFarm + Raid Boss</div>
+        <div class="card-desc">Автофарм уровней, авто-рейды, ESP всех боссов, авто-сбор дьявольских фруктов с телепортацией.</div>
+        <div class="card-features">
+          <span class="feat">AutoFarm</span>
+          <span class="feat">BossESP</span>
+          <span class="feat">FruitSniper</span>
+          <span class="feat">NoClip</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/bloxfruits/main/loader.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/bloxfruits/main/loader.lua"))()</div>
+    </div>
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-purple">Pet Simulator X</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Pet Simulator X</div>
+        <div class="card-name">AutoHatch + Coins Farm</div>
+        <div class="card-desc">Автоматическое открытие яиц, бесконечный фарм монет, автопродажа слабых питомцев, ESP сундуков.</div>
+        <div class="card-features">
+          <span class="feat">AutoHatch</span>
+          <span class="feat">CoinFarm</span>
+          <span class="feat">ChestESP</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/petsx/main/main.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/petsx/main/main.lua"))()</div>
+    </div>
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-green">Arsenal</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Arsenal</div>
+        <div class="card-name">Aimbot + Wallhack</div>
+        <div class="card-desc">Плавный аимбот с предиктом, ESP сквозь стены, трейсеры игроков, автоматический хедшот.</div>
+        <div class="card-features">
+          <span class="feat">Aimbot</span>
+          <span class="feat">ESP</span>
+          <span class="feat">Tracers</span>
+          <span class="feat">Headshot</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/arsenal/main/main.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/arsenal/main/main.lua"))()</div>
+    </div>
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-gold">Adopt Me</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Adopt Me</div>
+        <div class="card-name">AutoTask + Pet Collect</div>
+        <div class="card-desc">Автовыполнение заданий, авто-уход за питомцами, быстрое получение баксов и яиц.</div>
+        <div class="card-features">
+          <span class="feat">AutoTask</span>
+          <span class="feat">PetCare</span>
+          <span class="feat">BucksFarm</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/adoptme/main/script.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/adoptme/main/script.lua"))()</div>
+    </div>
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-red">Jailbreak</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Jailbreak</div>
+        <div class="card-name">AuraSupercar + Inf Cash</div>
+        <div class="card-desc">Бесконечные деньги, авторабби, ESP всех игроков и транспорта, авто-ограбление банка.</div>
+        <div class="card-features">
+          <span class="feat">InfCash</span>
+          <span class="feat">AutoRob</span>
+          <span class="feat">ESP</span>
+          <span class="feat">CarTP</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/jailbreak/main/main.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/jailbreak/main/main.lua"))()</div>
+    </div>
+
+    <div class="script-card">
+      <div class="card-top">
+        <span class="game-badge badge-purple">Da Hood</span>
+        <span class="free-tag">FREE</span>
+      </div>
+      <div class="card-body">
+        <div class="card-game">Da Hood</div>
+        <div class="card-name">Silent Aim + TP Kill</div>
+        <div class="card-desc">Тихий аимбот, телепорт-убийство, бесконечные патроны, авто-ограбление банка, ESP.</div>
+        <div class="card-features">
+          <span class="feat">SilentAim</span>
+          <span class="feat">InfAmmo</span>
+          <span class="feat">BankRob</span>
+          <span class="feat">ESP</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="copy-btn" onclick="copyScript(this,'loadstring(game:HttpGet(\"https://raw.githubusercontent.com/void-hub/dahood/main/hub.lua\"))()')">📋 Копировать</button>
+        <button class="view-btn" onclick="toggleCode(this)">Код</button>
+      </div>
+      <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/void-hub/dahood/main/hub.lua"))()</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="sec-hd">
+    <span class="sec-tag">Интерактив</span>
+    <h2 class="sec-title">Подобрать скрипт</h2>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-box">
+      <div class="quiz-progress" id="qprog">
+        <div class="qp-dot active"></div>
+        <div class="qp-dot"></div>
+        <div class="qp-dot"></div>
+        <div class="qp-dot"></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="quiz-step active" data-step="1">
+        <div class="quiz-q">В какой игре ты хочешь использовать скрипт?</div>
+        <div class="quiz-hint">Выбери жанр или конкретную игру</div>
+        <div class="quiz-options">
+          <button class="qopt" onclick="selectOpt(this,'bloxfruits')">
+            <div class="qopt-icon">🌊</div>
+            <div><div class="qopt-text">Blox Fruits</div><div class="qopt-sub">Аниме / Фарм / PvP</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'combat')">
+            <div class="qopt-icon">🎯</div>
+            <div><div class="qopt-text">Шутеры (Arsenal, Da Hood)</div><div class="qopt-sub">PvP / Aim / Combat</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'simulator')">
+            <div class="qopt-icon">🐾</div>
+            <div><div class="qopt-text">Симуляторы (Pet Sim, Adopt Me)</div><div class="qopt-sub">Фарм / Автоклик</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'openworld')">
+            <div class="qopt-icon">🏙️</div>
+            <div><div class="qopt-text">Открытый мир (Jailbreak, SW)</div><div class="qopt-sub">Деньги / Транспорт</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="quiz-step" data-step="2">
+        <div class="quiz-q">Что тебе нужно в первую очередь?</div>
+        <div class="quiz-hint">Выбери основную цель использования скрипта</div>
+        <div class="quiz-options">
+          <button class="qopt" onclick="selectOpt(this,'farm')">
+            <div class="qopt-icon">💰</div>
+            <div><div class="qopt-text">Быстрый фарм и прокачка</div><div class="qopt-sub">Автоматизация гринда</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'pvp')">
+            <div class="qopt-icon">⚔️</div>
+            <div><div class="qopt-text">Побеждать других игроков</div><div class="qopt-sub">Aimbot, ESP, Combat hacks</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'explore')">
+            <div class="qopt-icon">🔭</div>
+            <div><div class="qopt-text">Исследовать / NoClip / TP</div><div class="qopt-sub">Свобода передвижения</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'grind')">
+            <div class="qopt-icon">⚡</div>
+            <div><div class="qopt-text">Максимальный набор всего</div><div class="qopt-sub">Комплексный хаб</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="quiz-step" data-step="3">
+        <div class="quiz-q">Какой у тебя executor?</div>
+        <div class="quiz-hint">Это влияет на совместимость скрипта</div>
+        <div class="quiz-options">
+          <button class="qopt" onclick="selectOpt(this,'synapse')">
+            <div class="qopt-icon">⚡</div>
+            <div><div class="qopt-text">Synapse X / Wave</div><div class="qopt-sub">Топовый ПК executor</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'krnl')">
+            <div class="qopt-icon">🔓</div>
+            <div><div class="qopt-text">KRNL / Fluxus</div><div class="qopt-sub">Бесплатный ПК executor</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'mobile')">
+            <div class="qopt-icon">📱</div>
+            <div><div class="qopt-text">Delta / Arceus X</div><div class="qopt-sub">Мобильный executor</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'none')">
+            <div class="qopt-icon">❓</div>
+            <div><div class="qopt-text">Ещё не выбрал</div><div class="qopt-sub">Подскажем что скачать</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="quiz-step" data-step="4">
+        <div class="quiz-q">Как часто тебя банят?</div>
+        <div class="quiz-hint">Поможет подобрать уровень скрытности</div>
+        <div class="quiz-options">
+          <button class="qopt" onclick="selectOpt(this,'safe')">
+            <div class="qopt-icon">🛡️</div>
+            <div><div class="qopt-text">Никогда — хочу незаметный</div><div class="qopt-sub">Антибан в приоритете</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'medium')">
+            <div class="qopt-icon">⚖️</div>
+            <div><div class="qopt-text">Иногда — нормально</div><div class="qopt-sub">Баланс фич и безопасности</div></div>
+          </button>
+          <button class="qopt" onclick="selectOpt(this,'yolo')">
+            <div class="qopt-icon">💥</div>
+            <div><div class="qopt-text">Часто — мне всё равно</div><div class="qopt-sub">Максимум читов!</div></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div class="quiz-step" data-step="result" id="quiz-result">
+        <div class="quiz-result">
+          <span class="result-icon" id="r-icon">🚀</span>
+          <div class="result-title" id="r-title">Идеальные скрипты найдены!</div>
+          <div class="result-sub" id="r-sub">На основе твоих ответов мы подобрали лучшие скрипты</div>
+          <div class="result-scripts" id="r-scripts"></div>
+          <button class="restart-btn" onclick="restartQuiz()">↺ Пройти заново</button>
+        </div>
+      </div>
+
+      <div class="quiz-nav" id="quiz-nav">
+        <button class="btn btn-ghost" id="prev-btn" onclick="prevStep()" style="display:none">← Назад</button>
+        <button class="btn btn-primary" id="next-btn" onclick="nextStep()" style="margin-left:auto;opacity:.4;pointer-events:none">Далее →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="sec-hd">
+    <span class="sec-tag">Вопросы и ответы</span>
+    <h2 class="sec-title">Часто задаваемые вопросы</h2>
+  </div>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Как запустить скрипт в Roblox?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">1. Скачай executor (KRNL, Synapse X и др.) · 2. Запусти Roblox и зайди в игру · 3. Открой executor и вставь скопированный скрипт в поле · 4. Нажми кнопку <code>Execute</code>. Готово! Меню скрипта появится в игре.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Можно ли получить бан за использование скриптов?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">Да, Roblox может забанить аккаунт за использование запрещённых скриптов. Советуем использовать скрипты на <code>alt-аккаунте</code>, не злоупотреблять читами в публичных серверах и отдавать предпочтение скриптам с антибан-защитой.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Какой executor лучше всего для начинающих?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">Для новичков рекомендуем <code>KRNL</code> (бесплатный, стабильный) или <code>Fluxus</code>. Для мобильных — <code>Delta Executor</code>. Если хочешь максимум совместимости и возможностей, стоит перейти на <code>Synapse X</code> или <code>Wave</code>.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Скрипт не работает — что делать?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">Попробуй: 1) Обновить executor до последней версии · 2) Убедиться, что скрипт совместим с твоим executor'ом · 3) Перезайти в игру и снова выполнить скрипт · 4) Проверить, не обновилась ли игра (скрипты могут ломаться после апдейтов). Мы обновляем скрипты ежедневно.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Работают ли скрипты на мобильном телефоне?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">Да! Для Android используй <code>Delta Executor</code> или <code>Arceus X</code>. Для iOS ситуация сложнее из-за ограничений Apple. Все скрипты на сайте помечены тегом совместимости: <code>PC</code> / <code>Mobile</code>.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        <span class="faq-qt">Безопасно ли скачивать executor с этого сайта?</span>
+        <svg class="faq-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-a">
+        <p class="faq-at">Мы публикуем только ссылки на официальные источники executor'ов и не распространяем сторонние файлы. Всегда скачивай executor только с официального сайта разработчика. Перед запуском проверяй файлы антивирусом.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXECUTORS -->
+<section id="executor">
+  <div class="sec-hd">
+    <span class="sec-tag">Инструменты</span>
+    <h2 class="sec-title">Рекомендуемые Executors</h2>
+  </div>
+  <div class="exec-grid">
+    <div class="exec-card">
+      <span class="exec-logo">⚡</span>
+      <div class="exec-name">Synapse X</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Мощный ПК executor. Совместим с 99% скриптов</div>
+      <div class="exec-tags"><span class="exec-t t-pc">PC</span><span class="exec-t t-paid">Платный</span></div>
+    </div>
+    <div class="exec-card">
+      <span class="exec-logo">🔓</span>
+      <div class="exec-name">KRNL</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Лучший бесплатный ПК executor. Стабильный</div>
+      <div class="exec-tags"><span class="exec-t t-pc">PC</span><span class="exec-t t-free">Free</span></div>
+    </div>
+    <div class="exec-card">
+      <span class="exec-logo">🌊</span>
+      <div class="exec-name">Wave</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Новый топовый executor с отличной поддержкой</div>
+      <div class="exec-tags"><span class="exec-t t-pc">PC</span><span class="exec-t t-paid">Платный</span></div>
+    </div>
+    <div class="exec-card">
+      <span class="exec-logo">📱</span>
+      <div class="exec-name">Delta Executor</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Лучший мобильный executor для Android</div>
+      <div class="exec-tags"><span class="exec-t t-mob">Mobile</span><span class="exec-t t-free">Free</span></div>
+    </div>
+    <div class="exec-card">
+      <span class="exec-logo">🔥</span>
+      <div class="exec-name">Fluxus</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Хороший бесплатный вариант для ПК</div>
+      <div class="exec-tags"><span class="exec-t t-pc">PC</span><span class="exec-t t-free">Free</span></div>
+    </div>
+    <div class="exec-card">
+      <span class="exec-logo">🛡️</span>
+      <div class="exec-name">Arceus X</div>
+      <div style="font-size:.78rem;color:rgba(232,240,255,.4);margin-top:.3rem;font-weight:200;">Мобильный executor с большим хабом скриптов</div>
+      <div class="exec-tags"><span class="exec-t t-mob">Mobile</span><span class="exec-t t-free">Free</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">✦ RBLX VOID ✦</div>
+  <p class="f-warn">Скрипты предоставлены только в образовательных целях. Используй на свой страх и риск.<br>Мы не несём ответственности за блокировки аккаунтов. Roblox® является торговой маркой Roblox Corporation.</p>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  curR.style.left=rx+'px';curR.style.top=ry+'px';
+  requestAnimationFrame(a);})();
+
+// STARFIELD
+const cv=document.getElementById('bg');const cx2=cv.getContext('2d');
+let W,H,stars=[];
+function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+for(let i=0;i<280;i++)stars.push({x:Math.random()*9999,y:Math.random()*9999,r:Math.random()*1.4+.2,a:Math.random(),da:(Math.random()-.5)*.012,c:Math.random()>.85?'#88ccff':Math.random()>.7?'#ffddaa':'#fff'});
+function drawStars(){
+  cv.width=W;
+  stars.forEach(s=>{
+    s.x=s.x%W;s.y=s.y%H;
+    s.a+=s.da;if(s.a<0||s.a>1)s.da*=-1;s.a=Math.max(0,Math.min(1,s.a));
+    cx2.save();cx2.globalAlpha=s.a*.85;cx2.fillStyle=s.c;
+    if(s.r>1.1){cx2.shadowBlur=6;cx2.shadowColor=s.c;}
+    cx2.beginPath();cx2.arc(s.x%W,s.y%H,s.r,0,Math.PI*2);cx2.fill();cx2.restore();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// SHOOTING STARS
+function shoot(){
+  const el=document.createElement('div');
+  el.style.cssText=`position:fixed;width:2px;height:2px;background:#fff;border-radius:50%;pointer-events:none;z-index:0;left:${Math.random()*W}px;top:${Math.random()*H*.5}px;`;
+  document.body.appendChild(el);
+  const d=150+Math.random()*250,dur=500+Math.random()*400;
+  el.animate([{transform:'translate(0,0)',opacity:0},{opacity:1,offset:.05},{transform:`translate(${d}px,${d*.5}px)`,opacity:0}],{duration:dur,easing:'ease-out'}).onfinish=()=>el.remove();
+}
+setInterval(shoot,2800);
+
+// COPY SCRIPT
+function copyScript(btn,text){
+  navigator.clipboard.writeText(text).catch(()=>{});
+  btn.textContent='✅ Скопировано!';btn.classList.add('copied');
+  const t=document.getElementById('toast');t.classList.add('show');
+  setTimeout(()=>{btn.textContent='📋 Копировать';btn.classList.remove('copied');t.classList.remove('show');},2500);
+}
+
+// TOGGLE CODE
+function toggleCode(btn){
+  const card=btn.closest('.script-card');
+  const code=card.querySelector('.code-block');
+  const open=code.classList.toggle('open');
+  btn.textContent=open?'Скрыть':'Код';
+}
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.1});
+document.querySelectorAll('.script-card,.stat-card,.exec-card,.faq-item').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(35px)';
+  el.style.transition='opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)';
+  obs.observe(el);
+});
+
+// ===== QUIZ =====
+let curStep=1,answers={};
+const totalSteps=4;
+
+function updateProgress(){
+  document.querySelectorAll('.qp-dot').forEach((d,i)=>{
+    d.classList.remove('active','done');
+    if(i+1<curStep)d.classList.add('done');
+    if(i+1===curStep)d.classList.add('active');
+  });
+  document.getElementById('prev-btn').style.display=curStep>1?'block':'none';
+}
+
+function selectOpt(el,val){
+  el.closest('.quiz-options').querySelectorAll('.qopt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers['step'+curStep]=val;
+  const nb=document.getElementById('next-btn');
+  nb.style.opacity='1';nb.style.pointerEvents='auto';
+}
+
+function nextStep(){
+  if(!answers['step'+curStep])return;
+  if(curStep>=totalSteps){showResult();return;}
+  document.querySelector(`.quiz-step[data-step="${curStep}"]`).classList.remove('active');
+  curStep++;
+  document.querySelector(`.quiz-step[data-step="${curStep}"]`).classList.add('active');
+  const nb=document.getElementById('next-btn');
+  nb.style.opacity=answers['step'+curStep]?'1':'.4';
+  nb.style.pointerEvents=answers['step'+curStep]?'auto':'none';
+  if(curStep===totalSteps)nb.textContent='Результат 🚀';
+  updateProgress();
+}
+
+function prevStep(){
+  if(curStep<=1)return;
+  document.querySelector(`.quiz-step[data-step="${curStep}"]`).classList.remove('active');
+  curStep--;
+  document.querySelector(`.quiz-step[data-step="${curStep}"]`).classList.add('active');
+  const nb=document.getElementById('next-btn');
+  nb.style.opacity='1';nb.style.pointerEvents='auto';
+  nb.textContent='Далее →';
+  updateProgress();
+}
+
+const scriptDB={
+  bloxfruits_farm:[{i:'🌊',n:'Blox Fruits AutoFarm Hub',g:'Blox Fruits'},{i:'⚔️',n:'Blox Fruits Raid Boss Script',g:'Blox Fruits'},{i:'🍎',n:'Devil Fruit Sniper',g:'Blox Fruits'}],
+  bloxfruits_pvp:[{i:'💢',n:'Blox Fruits PvP Aimbot',g:'Blox Fruits'},{i:'🌊',n:'BloxFruits Combat Hub',g:'Blox Fruits'}],
+  bloxfruits_grind:[{i:'🚀',n:'Blox Fruits FULL HUB',g:'Blox Fruits'},{i:'🌊',n:'BF God Mode Script',g:'Blox Fruits'}],
+  combat_pvp:[{i:'🎯',n:'Arsenal Aimbot Pro',g:'Arsenal'},{i:'🔫',n:'Da Hood Silent Aim',g:'Da Hood'}],
+  combat_farm:[{i:'🏆',n:'Arsenal Kill Farm',g:'Arsenal'},{i:'💰',n:'Da Hood Cash Farm',g:'Da Hood'}],
+  simulator_farm:[{i:'🐾',n:'Pet Simulator X AutoHatch',g:'Pet Sim X'},{i:'💎',n:'Adopt Me AutoTask',g:'Adopt Me'}],
+  simulator_grind:[{i:'🔥',n:'PetSim X Full Hub',g:'Pet Sim X'},{i:'🐣',n:'Adopt Me Ultimate Script',g:'Adopt Me'}],
+  openworld_farm:[{i:'💵',n:'Jailbreak Inf Cash',g:'Jailbreak'},{i:'🚗',n:'Jailbreak AutoRob',g:'Jailbreak'}],
+  openworld_grind:[{i:'🏙️',n:'Jailbreak FULL HUB',g:'Jailbreak'},{i:'💰',n:'SW Inf Money',g:'Southwest Florida'}],
+  default:[{i:'⚡',n:'Universal Script Hub',g:'Все игры'},{i:'🛡️',n:'SafeMode AutoFarm',g:'Все игры'},{i:'🔧',n:'Multi-Game Hub',g:'30+ игр'}]
+};
+
+function showResult(){
+  document.querySelector(`.quiz-step[data-step="${curStep}"]`).classList.remove('active');
+  document.getElementById('quiz-nav').style.display='none';
+  document.querySelectorAll('.qp-dot').forEach(d=>{d.classList.remove('active');d.classList.add('done');});
+
+  const g=answers.step1||'bloxfruits';
+  const goal=answers.step2||'farm';
+  const key=g+'_'+goal;
+  const scripts=scriptDB[key]||scriptDB.default;
+  const safe=answers.step4==='safe';
+
+  let icon='🚀',title='Скрипты подобраны!',sub='';
+  if(g==='bloxfruits'&&goal==='pvp'){icon='⚔️';title='PvP Читер в Blox Fruits!';sub='Эти скрипты дадут тебе преимущество в боях против других игроков.';}
+  else if(goal==='farm'){icon='💰';title='Фарм-машина готова!';sub='Автоматизируй гринд и качайся в несколько раз быстрее.';}
+  else if(goal==='grind'){icon='🔥';title='Максимальный хаб!';sub='Комплексные скрипты со всеми функциями для твоей игры.';}
+  else{icon='🚀';title='Отличный выбор!';sub='Мы подобрали лучшие скрипты под твои запросы.';}
+
+  if(safe)sub+=' Все скрипты включают режим антибан.';
+
+  document.getElementById('r-icon').textContent=icon;
+  document.getElementById('r-title').textContent=title;
+  document.getElementById('r-sub').textContent=sub;
+
+  const rs=document.getElementById('r-scripts');
+  rs.innerHTML=scripts.map(s=>`<div class="rs-item"><div class="rs-icon">${s.i}</div><div><div class="rs-name">${s.n}</div><div class="rs-game">${s.g}</div></div></div>`).join('');
+
+  document.getElementById('quiz-result').classList.add('active');
+}
+
+function restartQuiz(){
+  answers={};curStep=1;
+  document.getElementById('quiz-result').classList.remove('active');
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.qopt').forEach(o=>o.classList.remove('selected'));
+  document.querySelector('.quiz-step[data-step="1"]').classList.add('active');
+  document.getElementById('quiz-nav').style.display='flex';
+  const nb=document.getElementById('next-btn');
+  nb.textContent='Далее →';nb.style.opacity='.4';nb.style.pointerEvents='none';
+  updateProgress();
+}
+
+// FAQ
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+</script>
+</body>
+</html>
