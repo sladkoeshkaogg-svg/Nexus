@@ -13,26 +13,31 @@
   --violet:#8b5cf6;
   --magenta:#f472b6;
   --green:#39ff14;
+  --gold:#fbbf24;
   --tg:#29b6f6;
+  --surface:rgba(255,255,255,0.03);
   --border:rgba(255,255,255,0.07);
 }
 html{scroll-behavior:smooth;}
 body{background:var(--void);color:#e8f0ff;font-family:'Exo 2',sans-serif;overflow-x:hidden;cursor:none;}
 
-/* ── CURSOR ─────────────────────────────── */
+/* CUSTOM CURSOR */
 #cur{position:fixed;width:10px;height:10px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 15px var(--cyan),0 0 30px var(--cyan);transition:width .2s,height .2s,background .2s;}
-#cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
+#cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .08s ease,top .08s ease;}
 body:has(button:hover) #cur,body:has(a:hover) #cur{width:18px;height:18px;background:var(--magenta);box-shadow:0 0 20px var(--magenta);}
 
-/* ── BG ─────────────────────────────────── */
+/* COSMIC BG */
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
 .nebula{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 50% at 15% 25%,rgba(139,92,246,.15) 0%,transparent 60%),
-             radial-gradient(ellipse 60% 70% at 85% 75%,rgba(0,245,255,.1) 0%,transparent 55%),
-             radial-gradient(ellipse 90% 40% at 50% 110%,rgba(244,114,182,.1) 0%,transparent 50%),
-             radial-gradient(ellipse 40% 60% at 70% 10%,rgba(57,255,20,.05) 0%,transparent 50%);
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 25%,rgba(139,92,246,.15) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 70% at 85% 75%,rgba(0,245,255,.1) 0%,transparent 55%),
+    radial-gradient(ellipse 90% 40% at 50% 110%,rgba(244,114,182,.1) 0%,transparent 50%),
+    radial-gradient(ellipse 40% 60% at 70% 10%,rgba(57,255,20,.05) 0%,transparent 50%);
   animation:nebDrift 18s ease-in-out infinite alternate;}
 @keyframes nebDrift{0%{opacity:.7;transform:scale(1)}100%{opacity:1;transform:scale(1.06)}}
+
+/* AURORA */
 .aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
 .aurora::before{content:'';position:absolute;top:-40%;left:-20%;width:140%;height:80%;
   background:linear-gradient(135deg,transparent 30%,rgba(0,245,255,.04) 50%,rgba(139,92,246,.06) 65%,transparent 80%);
@@ -41,69 +46,61 @@ body:has(button:hover) #cur,body:has(a:hover) #cur{width:18px;height:18px;backgr
   background:linear-gradient(135deg,transparent 20%,rgba(244,114,182,.03) 45%,rgba(57,255,20,.03) 65%,transparent 85%);
   animation:auroraSpin 35s linear infinite reverse;transform-origin:center;}
 @keyframes auroraSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* GRID LINES */
 .grid-lines{position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(0,245,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.022) 1px,transparent 1px);
+  background-image:
+    linear-gradient(rgba(0,245,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,245,255,.025) 1px,transparent 1px);
   background-size:60px 60px;
   mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 40%,transparent 100%);}
 
-/* ── NAV ─────────────────────────────────── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.75rem 1.6rem;
-  display:flex;align-items:center;gap:.8rem;
+/* ── NAV ──────────────────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.85rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
   background:rgba(0,0,12,.88);backdrop-filter:blur(24px);
   border-bottom:1px solid rgba(0,245,255,.1);
   box-shadow:0 0 40px rgba(0,245,255,.05);}
-.logo{font-family:'Orbitron',sans-serif;font-size:.88rem;font-weight:900;letter-spacing:.32em;
+.logo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;letter-spacing:.35em;
   background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  text-decoration:none;cursor:none;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(0,245,255,.4));}
-.nav-faq-link{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;
-  text-decoration:none;color:rgba(232,240,255,.4);transition:color .3s;cursor:none;flex-shrink:0;padding:2px 0;}
-.nav-faq-link:hover{color:var(--cyan);}
+  text-decoration:none;cursor:none;flex-shrink:0;
+  filter:drop-shadow(0 0 8px rgba(0,245,255,.4));}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;
+  text-decoration:none;color:rgba(232,240,255,.4);transition:color .3s;cursor:none;}
+.nav-links a:hover{color:var(--cyan);}
 
-/* SEARCH */
-.nav-search{position:relative;flex:1;max-width:320px;}
-.nav-search input{width:100%;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);
-  border-radius:50px;padding:5px 14px 5px 34px;font-family:'Exo 2',sans-serif;font-size:.72rem;
-  color:#e8f0ff;outline:none;transition:all .3s;cursor:text;}
-.nav-search input::placeholder{color:rgba(232,240,255,.3);}
-.nav-search input:focus{border-color:rgba(0,245,255,.45);background:rgba(0,245,255,.08);box-shadow:0 0 16px rgba(0,245,255,.15);}
-.nav-search .s-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:.75rem;pointer-events:none;color:rgba(0,245,255,.5);}
-.search-drop{position:absolute;top:calc(100% + 8px);left:0;right:0;
-  background:rgba(0,0,18,.97);border:1px solid rgba(0,245,255,.2);border-radius:12px;
-  backdrop-filter:blur(20px);overflow:hidden;display:none;z-index:200;
-  box-shadow:0 12px 40px rgba(0,245,255,.1);}
-.search-drop.visible{display:block;}
-.search-item{padding:.7rem 1rem;cursor:none;border-bottom:1px solid rgba(255,255,255,.04);
-  font-size:.8rem;color:rgba(232,240,255,.65);transition:background .2s;display:flex;align-items:flex-start;gap:.6rem;}
-.search-item:last-child{border-bottom:none;}
-.search-item:hover{background:rgba(0,245,255,.07);color:#e8f0ff;}
-.search-icon{color:var(--cyan);flex-shrink:0;font-size:.7rem;margin-top:2px;}
-.search-highlight{color:var(--cyan);font-weight:600;}
-.search-none{padding:.9rem 1rem;font-size:.78rem;color:rgba(232,240,255,.3);text-align:center;font-family:'Share Tech Mono',monospace;}
+/* NAV RIGHT */
+.nav-right{display:flex;align-items:center;gap:.55rem;flex-shrink:0;}
 
-.nav-spacer{flex:1;}
+/* ALL NAV PILLS */
+.npill{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;
+  padding:5px 13px;border-radius:50px;text-decoration:none;cursor:none;border:none;
+  transition:all .25s;white-space:nowrap;line-height:1;}
+.npill-tg{background:rgba(41,182,246,.12);color:var(--tg);border:1px solid rgba(41,182,246,.3);}
+.npill-tg:hover{background:rgba(41,182,246,.25);box-shadow:0 0 18px rgba(41,182,246,.4);transform:translateY(-1px);}
+.npill-ftap{background:rgba(57,255,20,.08);color:var(--green);border:1px solid rgba(57,255,20,.25);}
+.npill-ftap:hover{background:rgba(57,255,20,.2);box-shadow:0 0 18px rgba(57,255,20,.35);transform:translateY(-1px);}
+.npill-faq{background:linear-gradient(135deg,rgba(0,245,255,.15),rgba(139,92,246,.15));color:var(--cyan);border:1px solid rgba(0,245,255,.25);}
+.npill-faq:hover{background:linear-gradient(135deg,rgba(0,245,255,.3),rgba(139,92,246,.3));box-shadow:0 0 18px rgba(0,245,255,.3);transform:translateY(-1px);}
+.npill-scripts{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(244,114,182,.15));color:var(--magenta);border:1px solid rgba(244,114,182,.25);}
+.npill-scripts:hover{background:linear-gradient(135deg,rgba(139,92,246,.3),rgba(244,114,182,.3));box-shadow:0 0 18px rgba(244,114,182,.35);transform:translateY(-1px);}
 
-/* NAV PILLS */
-.npill{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;
-  padding:5px 12px;border-radius:50px;text-decoration:none;cursor:none;border:none;
-  transition:all .22s;white-space:nowrap;line-height:1;flex-shrink:0;}
-.npill-tg{background:rgba(41,182,246,.1);color:var(--tg);border:1px solid rgba(41,182,246,.28);}
-.npill-tg:hover{background:rgba(41,182,246,.22);box-shadow:0 0 16px rgba(41,182,246,.4);transform:translateY(-1px);}
-.npill-ftap{background:rgba(57,255,20,.07);color:var(--green);border:1px solid rgba(57,255,20,.22);}
-.npill-ftap:hover{background:rgba(57,255,20,.18);box-shadow:0 0 16px rgba(57,255,20,.35);transform:translateY(-1px);}
-.npill-obf{background:rgba(251,191,36,.07);color:#fbbf24;border:1px solid rgba(251,191,36,.22);}
-.npill-obf:hover{background:rgba(251,191,36,.18);box-shadow:0 0 16px rgba(251,191,36,.35);transform:translateY(-1px);}
-.npill-scripts{background:linear-gradient(135deg,rgba(139,92,246,.13),rgba(244,114,182,.13));color:var(--magenta);border:1px solid rgba(244,114,182,.22);}
-.npill-scripts:hover{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(244,114,182,.28));box-shadow:0 0 16px rgba(244,114,182,.35);transform:translateY(-1px);}
-.lang-toggle{display:flex;align-items:center;border:1px solid rgba(0,245,255,.18);border-radius:50px;overflow:hidden;background:rgba(0,0,12,.5);flex-shrink:0;}
-.lang-btn{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:.12em;padding:5px 10px;
+/* LANG TOGGLE */
+.lang-toggle{display:flex;align-items:center;border:1px solid rgba(0,245,255,.2);border-radius:50px;overflow:hidden;background:rgba(0,0,12,.5);}
+.lang-btn{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:.12em;padding:5px 11px;
   border:none;background:transparent;color:rgba(232,240,255,.3);cursor:none;transition:all .22s;line-height:1;}
 .lang-btn.active{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 10px rgba(0,245,255,.3);}
 
 section{position:relative;z-index:1;}
 
-/* ── HERO ─────────────────────────────────── */
-#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;overflow:hidden;}
-.hero-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--green);margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s .2s forwards;display:flex;align-items:center;gap:.8rem;justify-content:center;filter:drop-shadow(0 0 6px rgba(57,255,20,.5));}
+/* ── HERO ─────────────────────────────────────────────────────── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:8rem 2rem 4rem;overflow:hidden;}
+.hero-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--green);margin-bottom:1.5rem;opacity:0;animation:fadeUp 1s .2s forwards;
+  display:flex;align-items:center;gap:.8rem;justify-content:center;
+  filter:drop-shadow(0 0 6px rgba(57,255,20,.5));}
 .hero-tag::before,.hero-tag::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--green));}
 .hero-tag::after{transform:rotate(180deg);}
 .hero-h1{font-family:'Orbitron',sans-serif;font-size:clamp(3rem,11vw,9rem);font-weight:900;line-height:.85;
@@ -111,147 +108,165 @@ section{position:relative;z-index:1;}
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   filter:drop-shadow(0 0 60px rgba(0,245,255,.3)) drop-shadow(0 0 120px rgba(139,92,246,.2));
   letter-spacing:-.02em;opacity:0;animation:fadeUp 1s .4s forwards;}
-.hero-sub{font-size:clamp(.95rem,2vw,1.3rem);font-weight:200;color:rgba(232,240,255,.5);margin-top:1.2rem;letter-spacing:.12em;opacity:0;animation:fadeUp 1s .7s forwards;}
-.hero-stats{display:flex;gap:3rem;margin-top:3rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 1s 1s forwards;}
+.hero-sub{font-size:clamp(.95rem,2vw,1.3rem);font-weight:200;color:rgba(232,240,255,.5);
+  margin-top:1.2rem;letter-spacing:.12em;opacity:0;animation:fadeUp 1s .7s forwards;}
+.hero-stats{display:flex;gap:3rem;margin-top:3rem;justify-content:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp 1s 1s forwards;}
 .hstat{text-align:center;}
-.hstat-n{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(0,245,255,.4));}
+.hstat-n{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;
+  background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 10px rgba(0,245,255,.4));}
 .hstat-l{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(232,240,255,.35);margin-top:.25rem;}
-.hero-cta{display:flex;gap:1.2rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 1s 1.2s forwards;}
-.btn{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:.9rem 2rem;border-radius:10px;text-decoration:none;cursor:none;border:none;transition:all .3s;position:relative;overflow:hidden;}
-.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 30px rgba(0,245,255,.3);}
-.btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(0,245,255,.5);}
-.btn-scripts{background:linear-gradient(135deg,var(--violet),var(--magenta));color:#fff;box-shadow:0 0 30px rgba(139,92,246,.3);}
+.hero-cta{display:flex;gap:1.2rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fadeUp 1s 1.2s forwards;}
+.btn{font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  padding:.9rem 2rem;border-radius:10px;text-decoration:none;cursor:none;border:none;transition:all .3s;position:relative;overflow:hidden;}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);
+  opacity:0;transition:opacity .3s;}
+.btn:hover::before{opacity:1;}
+.btn-primary{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
+  box-shadow:0 0 30px rgba(0,245,255,.3),0 0 60px rgba(0,245,255,.1);}
+.btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(0,245,255,.5),0 0 80px rgba(0,245,255,.2);}
+.btn-scripts{background:linear-gradient(135deg,var(--violet),var(--magenta));color:#fff;
+  box-shadow:0 0 30px rgba(139,92,246,.3);}
 .btn-scripts:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(244,114,182,.5);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.4em;color:rgba(0,245,255,.4);text-transform:uppercase;opacity:0;animation:fadeUp 1s 2s forwards,bounceY 2.5s 3s infinite;}
+.scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.4em;color:rgba(0,245,255,.4);text-transform:uppercase;
+  opacity:0;animation:fadeUp 1s 2s forwards,bounceY 2.5s 3s infinite;}
 @keyframes bounceY{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-8px)}}
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),var(--magenta),transparent);opacity:.4;position:relative;z-index:1;}
 
-/* ── FAQ ─────────────────────────────────── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--violet),var(--magenta),transparent);opacity:.4;position:relative;z-index:1;box-shadow:0 0 8px rgba(0,245,255,.2);}
+
+/* ── SEC HEADER ───────────────────────────────────────────────── */
 .sec-hd{text-align:center;margin-bottom:4rem;}
-.sec-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--magenta);display:block;margin-bottom:.8rem;}
-.sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;background:linear-gradient(135deg,#fff,rgba(232,240,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sec-tag{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--magenta);display:block;margin-bottom:.8rem;filter:drop-shadow(0 0 6px rgba(244,114,182,.4));}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:700;
+  background:linear-gradient(135deg,#fff,rgba(232,240,255,.7));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── FAQ ─────────────────────────────────────────────────────── */
 #faq{padding:7rem 2rem 8rem;}
 .faq-list{max-width:780px;margin:0 auto;display:grid;gap:.75rem;}
 .faq-item{border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s;}
 .faq-item.open{border-color:rgba(0,245,255,.3);transform:scale(1.01);box-shadow:0 0 20px rgba(0,245,255,.08);}
-.faq-item.hidden{display:none;}
-.faq-item.search-match{border-color:rgba(0,245,255,.25);}
-.faq-btn{width:100%;background:rgba(255,255,255,.02);border:none;padding:1.3rem 1.6rem;cursor:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;text-align:left;transition:background .3s;}
+.faq-btn{width:100%;background:rgba(255,255,255,.02);border:none;padding:1.3rem 1.6rem;
+  cursor:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  text-align:left;transition:background .3s;}
 .faq-btn:hover{background:rgba(0,245,255,.05);}
 .faq-qt{font-family:'Exo 2',sans-serif;font-size:.95rem;font-weight:600;color:rgba(232,240,255,.85);}
-.faq-icon{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,245,255,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--cyan);transition:transform .35s,background .3s,border-color .3s;}
+.faq-icon{width:28px;height:28px;border-radius:50%;border:1px solid rgba(0,245,255,.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--cyan);
+  transition:transform .35s,background .3s,border-color .3s;}
 .faq-item.open .faq-icon{transform:rotate(45deg);background:rgba(0,245,255,.1);border-color:var(--cyan);}
 .faq-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.23,1,.32,1);}
 .faq-item.open .faq-body{max-height:320px;}
 .faq-ans{padding:0 1.6rem 1.4rem;font-size:.875rem;color:rgba(232,240,255,.5);line-height:1.8;font-weight:200;}
-.faq-ans code{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--cyan);background:rgba(0,245,255,.08);padding:2px 7px;border-radius:4px;}
+.faq-ans code{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--cyan);
+  background:rgba(0,245,255,.08);padding:2px 7px;border-radius:4px;}
 .faq-ans strong{color:rgba(232,240,255,.75);font-weight:600;}
 
-/* ── MODAL BASE ─────────────────────────── */
-.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,12,.93);backdrop-filter:blur(24px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+/* ── MODALS (shared base) ─────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,12,.93);backdrop-filter:blur(24px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-box{width:min(1100px,96vw);height:min(86vh,840px);border-radius:18px;display:flex;flex-direction:column;overflow:hidden;transform:scale(.93) translateY(35px);transition:transform .35s cubic-bezier(.23,1,.32,1);}
+.modal-box{width:min(1100px,96vw);height:min(86vh,840px);border-radius:18px;
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:scale(.93) translateY(35px);transition:transform .35s cubic-bezier(.23,1,.32,1);}
 .modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
 .modal-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;flex-shrink:0;}
 .modal-title{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.3em;}
-.modal-close{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:rgba(232,240,255,.4);background:none;border:none;cursor:none;padding:4px 9px;border-radius:8px;transition:all .2s;line-height:1;}
+.modal-close{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:rgba(232,240,255,.4);
+  background:none;border:none;cursor:none;padding:4px 9px;border-radius:8px;transition:all .2s;line-height:1;}
 .modal-close:hover{color:var(--magenta);background:rgba(244,114,182,.12);}
-.modal-frame{flex:1;border:none;width:100%;background:#00000c;}
 
-/* ── SCRIPTS MODAL ─────────────────────── */
-#scriptsModal .modal-box{border:1px solid rgba(244,114,182,.3);background:rgba(0,0,12,.97);box-shadow:0 0 60px rgba(139,92,246,.12);}
+/* Scripts iframe modal */
+#scriptsModal .modal-box{border:1px solid rgba(244,114,182,.35);background:rgba(0,0,12,.97);
+  box-shadow:0 0 60px rgba(139,92,246,.15),0 0 120px rgba(0,0,12,.8);}
 #scriptsModal .modal-head{border-bottom:1px solid rgba(139,92,246,.2);background:rgba(0,0,12,.7);}
 #scriptsModal .modal-title{background:linear-gradient(135deg,var(--violet),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.modal-frame{flex:1;border:none;width:100%;background:#00000c;}
 
-/* ── FTAP MODAL ─────────────────────────── */
-#ftapModal .modal-box{border:1px solid rgba(57,255,20,.25);background:rgba(0,0,12,.97);box-shadow:0 0 60px rgba(57,255,20,.07);}
-#ftapModal .modal-head{border-bottom:1px solid rgba(57,255,20,.13);background:rgba(0,0,12,.7);}
+/* Ftap Cracks modal */
+#ftapModal .modal-box{border:1px solid rgba(57,255,20,.3);background:rgba(0,0,12,.97);
+  box-shadow:0 0 60px rgba(57,255,20,.08),0 0 120px rgba(0,0,12,.8);}
+#ftapModal .modal-head{border-bottom:1px solid rgba(57,255,20,.15);background:rgba(0,0,12,.7);}
 #ftapModal .modal-title{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* Ftap content area */
 .ftap-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative;}
-.scripts-grid{flex:1;overflow-y:auto;padding:1.4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.9rem;align-content:start;}
+
+/* Scripts grid */
+.scripts-grid{flex:1;overflow-y:auto;padding:1.4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;align-content:start;}
 .scripts-grid::-webkit-scrollbar{width:4px;}
 .scripts-grid::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:4px;}
-.script-tile{background:rgba(0,245,255,.025);border:1px solid rgba(0,245,255,.1);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.7rem;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;}
-.script-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.3),transparent);opacity:0;transition:opacity .25s;}
-.script-tile:hover{border-color:rgba(0,245,255,.28);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,245,255,.08);}
+
+/* Script tile */
+.script-tile{background:rgba(0,245,255,.03);border:1px solid rgba(0,245,255,.1);border-radius:12px;
+  padding:1rem;display:flex;flex-direction:column;gap:.75rem;
+  transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;}
+.script-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,245,255,.3),transparent);opacity:0;transition:opacity .25s;}
+.script-tile:hover{border-color:rgba(0,245,255,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,245,255,.08);}
 .script-tile:hover::before{opacity:1;}
-.tile-icon{font-size:1.4rem;filter:drop-shadow(0 0 6px rgba(0,245,255,.4));}
-.tile-name{font-family:'Share Tech Mono',monospace;font-size:.78rem;color:rgba(232,240,255,.85);word-break:break-all;line-height:1.4;}
-.tile-ext{font-size:.62rem;color:rgba(0,245,255,.45);font-family:'Share Tech Mono',monospace;margin-top:.15rem;}
-.tile-actions{display:flex;gap:.45rem;margin-top:auto;}
-.tile-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.13em;text-transform:uppercase;padding:5px 9px;border-radius:6px;border:none;cursor:none;transition:all .2s;flex:1;text-align:center;line-height:1.2;}
-.tile-btn-view{background:rgba(139,92,246,.12);color:var(--violet);border:1px solid rgba(139,92,246,.22);}
-.tile-btn-view:hover{background:rgba(139,92,246,.28);box-shadow:0 0 10px rgba(139,92,246,.28);}
-.tile-btn-copy{background:rgba(0,245,255,.08);color:var(--cyan);border:1px solid rgba(0,245,255,.18);}
-.tile-btn-copy:hover{background:rgba(0,245,255,.22);box-shadow:0 0 10px rgba(0,245,255,.28);}
-.tile-btn-copy.copied{background:rgba(57,255,20,.12);color:var(--green);border-color:rgba(57,255,20,.28);}
-.script-viewer{position:absolute;inset:0;background:rgba(0,0,12,.98);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);z-index:10;}
+.tile-icon{font-size:1.5rem;filter:drop-shadow(0 0 6px rgba(0,245,255,.4));}
+.tile-name{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(232,240,255,.85);word-break:break-all;line-height:1.4;}
+.tile-ext{font-size:.65rem;color:rgba(0,245,255,.5);font-family:'Share Tech Mono',monospace;margin-top:.2rem;}
+.tile-actions{display:flex;gap:.5rem;justify-content:space-between;margin-top:auto;}
+.tile-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;text-transform:uppercase;
+  padding:5px 10px;border-radius:6px;border:none;cursor:none;transition:all .2s;flex:1;text-align:center;}
+.tile-btn-view{background:rgba(139,92,246,.15);color:var(--violet);border:1px solid rgba(139,92,246,.25);}
+.tile-btn-view:hover{background:rgba(139,92,246,.3);box-shadow:0 0 12px rgba(139,92,246,.3);}
+.tile-btn-copy{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2);}
+.tile-btn-copy:hover{background:rgba(0,245,255,.25);box-shadow:0 0 12px rgba(0,245,255,.3);}
+.tile-btn-copy.copied{background:rgba(57,255,20,.15);color:var(--green);border-color:rgba(57,255,20,.3);}
+
+/* Script viewer panel */
+.script-viewer{position:absolute;inset:0;background:rgba(0,0,12,.97);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);z-index:10;}
 .script-viewer.visible{transform:translateX(0);}
-.sv-head{display:flex;align-items:center;gap:.8rem;padding:.85rem 1.4rem;border-bottom:1px solid rgba(0,245,255,.1);flex-shrink:0;flex-wrap:wrap;}
-.sv-back{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:.18em;background:rgba(0,245,255,.07);border:1px solid rgba(0,245,255,.18);color:var(--cyan);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;flex-shrink:0;}
-.sv-back:hover{background:rgba(0,245,255,.18);}
-.sv-title{font-family:'Share Tech Mono',monospace;font-size:.77rem;color:rgba(232,240,255,.55);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.sv-copy-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.18);color:var(--cyan);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;flex-shrink:0;}
-.sv-copy-btn:hover{background:rgba(0,245,255,.22);}
-.sv-code{flex:1;overflow-y:auto;padding:1.4rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;line-height:1.7;color:rgba(0,245,255,.75);white-space:pre-wrap;word-break:break-all;}
+.sv-head{display:flex;align-items:center;gap:1rem;padding:.9rem 1.4rem;
+  border-bottom:1px solid rgba(0,245,255,.1);flex-shrink:0;}
+.sv-back{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:.2em;
+  background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--cyan);
+  padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;}
+.sv-back:hover{background:rgba(0,245,255,.2);}
+.sv-title{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(232,240,255,.6);}
+.sv-copy-btn{margin-left:auto;font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;
+  background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.2);color:var(--cyan);
+  padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;}
+.sv-copy-btn:hover{background:rgba(0,245,255,.25);}
+.sv-code{flex:1;overflow-y:auto;padding:1.4rem;font-family:'Share Tech Mono',monospace;
+  font-size:.75rem;line-height:1.7;color:rgba(0,245,255,.8);white-space:pre-wrap;word-break:break-all;}
 .sv-code::-webkit-scrollbar{width:4px;}
-.sv-code::-webkit-scrollbar-thumb{background:rgba(0,245,255,.18);border-radius:4px;}
-.ftap-loading,.ftap-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;flex:1;padding:3rem;}
-.ftap-spinner{width:44px;height:44px;border:2px solid rgba(57,255,20,.12);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite;}
+.sv-code::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:4px;}
+
+/* Loading state */
+.ftap-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;flex:1;}
+.ftap-spinner{width:44px;height:44px;border:2px solid rgba(57,255,20,.15);border-top-color:var(--green);
+  border-radius:50%;animation:spin .7s linear infinite;}
 .ftap-load-txt{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.3em;color:rgba(57,255,20,.4);}
-.ftap-error{text-align:center;padding:2rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(244,114,182,.55);line-height:1.7;}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ── OBFUSCATOR MODAL ───────────────────── */
-#obfModal .modal-box{border:1px solid rgba(251,191,36,.28);background:rgba(0,0,12,.97);box-shadow:0 0 60px rgba(251,191,36,.08);width:min(900px,96vw);height:min(80vh,700px);}
-#obfModal .modal-head{border-bottom:1px solid rgba(251,191,36,.15);background:rgba(0,0,12,.7);}
-#obfModal .modal-title{background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.obf-body{flex:1;display:flex;flex-direction:column;gap:0;overflow:hidden;}
-.obf-panels{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;}
-.obf-panel{display:flex;flex-direction:column;overflow:hidden;}
-.obf-panel+.obf-panel{border-left:1px solid rgba(251,191,36,.1);}
-.obf-panel-head{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;border-bottom:1px solid rgba(251,191,36,.1);flex-shrink:0;}
-.obf-panel-title{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(251,191,36,.5);}
-.obf-panel-action{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);color:#fbbf24;padding:4px 10px;border-radius:5px;cursor:none;transition:all .2s;}
-.obf-panel-action:hover{background:rgba(251,191,36,.2);}
-.obf-panel-action.copied{background:rgba(57,255,20,.12);color:var(--green);border-color:rgba(57,255,20,.28);}
-.obf-clear{font-family:'Orbitron',sans-serif;font-size:.6rem;letter-spacing:.15em;background:rgba(244,114,182,.06);border:1px solid rgba(244,114,182,.15);color:rgba(244,114,182,.6);padding:4px 10px;border-radius:5px;cursor:none;transition:all .2s;}
-.obf-clear:hover{background:rgba(244,114,182,.15);}
-.obf-textarea{flex:1;width:100%;background:transparent;border:none;outline:none;padding:1rem;
-  font-family:'Share Tech Mono',monospace;font-size:.76rem;line-height:1.7;
-  color:rgba(232,240,255,.8);resize:none;overflow-y:auto;cursor:text;}
-.obf-textarea::-webkit-scrollbar{width:4px;}
-.obf-textarea::-webkit-scrollbar-thumb{background:rgba(251,191,36,.15);border-radius:4px;}
-.obf-textarea::placeholder{color:rgba(232,240,255,.2);}
-.obf-result{flex:1;overflow-y:auto;padding:1rem;font-family:'Share Tech Mono',monospace;font-size:.74rem;line-height:1.7;color:rgba(57,255,20,.8);white-space:pre-wrap;word-break:break-all;}
-.obf-result::-webkit-scrollbar{width:4px;}
-.obf-result::-webkit-scrollbar-thumb{background:rgba(57,255,20,.15);border-radius:4px;}
-.obf-result.placeholder{color:rgba(232,240,255,.18);font-size:.72rem;}
-.obf-result.error-txt{color:rgba(244,114,182,.65);}
-.obf-footer{padding:.8rem 1rem;border-top:1px solid rgba(251,191,36,.1);display:flex;align-items:center;justify-content:center;gap:1rem;flex-shrink:0;}
-.obf-run{font-family:'Orbitron',sans-serif;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;
-  padding:.7rem 2.5rem;border-radius:10px;border:none;cursor:none;
-  background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-weight:700;
-  transition:all .3s;box-shadow:0 0 20px rgba(251,191,36,.25);}
-.obf-run:hover:not(:disabled){transform:translateY(-2px) scale(1.04);box-shadow:0 0 35px rgba(251,191,36,.45);}
-.obf-run:disabled{opacity:.45;cursor:none;transform:none;}
-.obf-status{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:rgba(232,240,255,.3);}
-.obf-run-spinner{display:inline-block;width:12px;height:12px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px;}
-@media(max-width:620px){.obf-panels{grid-template-columns:1fr;grid-template-rows:1fr 1fr;}.obf-panel+.obf-panel{border-left:none;border-top:1px solid rgba(251,191,36,.1);}}
+/* Error state */
+.ftap-error{text-align:center;padding:3rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(244,114,182,.6);}
 
-/* ── FOOTER ─────────────────────────────── */
+/* ── FOOTER ───────────────────────────────────────────────────── */
 footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);z-index:1;position:relative;}
-.f-logo{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;letter-spacing:.4em;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(0,245,255,.3));}
+.f-logo{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;letter-spacing:.4em;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 10px rgba(0,245,255,.3));}
 .f-warn{font-size:.72rem;color:rgba(232,240,255,.2);margin-top:1.2rem;line-height:1.7;letter-spacing:.05em;}
 
-@media(max-width:750px){
-  nav{padding:.7rem .9rem;gap:.5rem;}
-  .nav-faq-link{display:none;}
-  .nav-search{max-width:140px;}
-  .npill{padding:4px 8px;font-size:6px;}
-  .modal-box{height:92vh;}
-  .scripts-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr));}
+@media(max-width:700px){
+  nav{padding:.8rem 1rem;gap:.5rem;}
+  .nav-links{display:none;}
+  .npill{padding:4px 9px;font-size:6.5px;}
+  .lang-btn{padding:4px 8px;}
+  .modal-box{height:91vh;}
+  .scripts-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
 }
 </style>
 </head>
@@ -264,32 +279,30 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 <div class="aurora"></div>
 <div class="grid-lines"></div>
 
-<!-- ── NAV ─────────────────────────────────── -->
+<!-- NAV -->
 <nav>
   <a href="#" class="logo">RBLX VOID</a>
-  <a href="#faq" class="nav-faq-link" data-i18n="nav_faq">FAQ</a>
-
-  <!-- SEARCH -->
-  <div class="nav-search" id="navSearch">
-    <span class="s-icon">⌕</span>
-    <input type="text" id="searchInput" data-i18n-placeholder="search_ph" placeholder="Search FAQ..." autocomplete="off">
-    <div class="search-drop" id="searchDrop"></div>
-  </div>
-
-  <div class="nav-spacer"></div>
-
-  <a href="https://t.me/FtapPlayers123" target="_blank" class="npill npill-tg" data-i18n="nav_tg">TG</a>
-  <button class="npill npill-ftap" onclick="openFtap()" data-i18n="nav_ftap">Ftap Cracks</button>
-  <button class="npill npill-obf" onclick="openObf()" data-i18n="nav_obf">Obfuscator</button>
-  <button class="npill npill-scripts" onclick="openScriptsModal()" data-i18n="nav_scripts">Scripts</button>
-
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  <ul class="nav-links">
+    <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <!-- TG -->
+    <a href="https://t.me/FtapPlayers123" target="_blank" class="npill npill-tg" data-i18n="nav_tg">TG</a>
+    <!-- Ftap Cracks -->
+    <button class="npill npill-ftap" onclick="openFtap()" data-i18n="nav_ftap">Ftap Cracks</button>
+    <!-- Q&A -->
+    <a href="#faq" class="npill npill-faq" data-i18n="nav_faq_badge">Q&amp;A</a>
+    <!-- Scripts -->
+    <button class="npill npill-scripts" onclick="openScriptsModal()" data-i18n="nav_scripts">Scripts</button>
+    <!-- Lang -->
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 </nav>
 
-<!-- ── HERO ─────────────────────────────────── -->
+<!-- HERO -->
 <section id="hero">
   <p class="hero-tag" data-i18n="hero_tag">Лучшие скрипты для Roblox 2026🌙</p>
   <h1 class="hero-h1">RBLX<br>VOID</h1>
@@ -309,23 +322,23 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
 <div class="divider"></div>
 
-<!-- ── FAQ ─────────────────────────────────── -->
+<!-- FAQ -->
 <section id="faq">
   <div class="sec-hd">
     <span class="sec-tag" data-i18n="faq_tag">Помощь</span>
     <h2 class="sec-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
   </div>
-  <div class="faq-list" id="faqList">
-    <div class="faq-item" data-qi="q1"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q1">Как запустить скрипт в Roblox?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a1"></p></div></div>
-    <div class="faq-item" data-qi="q2"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q2">Можно ли получить бан за скрипты?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a2"></p></div></div>
-    <div class="faq-item" data-qi="q3"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q3">Какой executor выбрать новичку?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a3"></p></div></div>
-    <div class="faq-item" data-qi="q4"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q4">Скрипт не работает — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a4"></p></div></div>
-    <div class="faq-item" data-qi="q5"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q5">Работают ли скрипты на телефоне?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a5"></p></div></div>
-    <div class="faq-item" data-qi="q6"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q6">Что такое loadstring и зачем он нужен?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a6"></p></div></div>
-    <div class="faq-item" data-qi="q7"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q7">Как написать собственный скрипт?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a7"></p></div></div>
-    <div class="faq-item" data-qi="q8"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q8">Для каких игр есть скрипты на сайте?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a8"></p></div></div>
-    <div class="faq-item" data-qi="q9"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q9">Все ли скрипты бесплатные?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a9"></p></div></div>
-    <div class="faq-item" data-qi="q10"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q10">Антивирус блокирует executor — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a10"></p></div></div>
+  <div class="faq-list">
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q1">Как запустить скрипт в Roblox?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a1"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q2">Можно ли получить бан за скрипты?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a2"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q3">Какой executor выбрать новичку?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a3"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q4">Скрипт не работает — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a4"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q5">Работают ли скрипты на телефоне?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a5"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q6">Что такое loadstring и зачем он нужен?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a6"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q7">Как написать собственный скрипт?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a7"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q8">Для каких игр есть скрипты на сайте?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a8"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q9">Все ли скрипты бесплатные?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a9"></p></div></div>
+    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q10">Антивирус блокирует executor — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a10"></p></div></div>
   </div>
 </section>
 
@@ -334,18 +347,19 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
   <p class="f-warn" data-i18n-html="footer_warn"></p>
 </footer>
 
-<!-- ── SCRIPTS IFRAME MODAL ──── -->
+<!-- ── SCRIPTS IFRAME MODAL ──────────────────────────────────── -->
 <div class="modal-overlay" id="scriptsModal" onclick="if(event.target===this)closeScriptsModal()">
   <div class="modal-box">
     <div class="modal-head">
       <span class="modal-title" data-i18n="modal_title">✦ SCRIPTS CATALOG ✦</span>
       <button class="modal-close" onclick="closeScriptsModal()">✕</button>
     </div>
-    <iframe id="scriptsFrame" class="modal-frame" src="" title="Scripts" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    <iframe id="scriptsFrame" class="modal-frame" src="" title="Scripts"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
   </div>
 </div>
 
-<!-- ── FTAP CRACKS MODAL ─────── -->
+<!-- ── FTAP CRACKS MODAL ─────────────────────────────────────── -->
 <div class="modal-overlay" id="ftapModal" onclick="if(event.target===this)closeFtap()">
   <div class="modal-box">
     <div class="modal-head">
@@ -353,475 +367,288 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
       <button class="modal-close" onclick="closeFtap()">✕</button>
     </div>
     <div class="ftap-body">
+      <!-- Script viewer panel (slides in from right) -->
       <div class="script-viewer" id="scriptViewer">
         <div class="sv-head">
           <button class="sv-back" onclick="closeViewer()">← Back</button>
           <span class="sv-title" id="svTitle"></span>
           <button class="sv-copy-btn" id="svCopyBtn" onclick="copyViewed()">Copy</button>
         </div>
-        <pre class="sv-code" id="svCode"></pre>
+        <pre class="sv-code" id="svCode">Loading...</pre>
       </div>
+      <!-- Grid of script tiles -->
       <div id="ftapGrid" class="scripts-grid"></div>
     </div>
   </div>
 </div>
 
-<!-- ── OBFUSCATOR MODAL ──────── -->
-<div class="modal-overlay" id="obfModal" onclick="if(event.target===this)closeObf()">
-  <div class="modal-box">
-    <div class="modal-head">
-      <span class="modal-title" data-i18n="obf_title">🔒 OBFUSCATOR — WeAreDevs ⚡</span>
-      <button class="modal-close" onclick="closeObf()">✕</button>
-    </div>
-    <div class="obf-body">
-      <div class="obf-panels">
-        <!-- INPUT -->
-        <div class="obf-panel">
-          <div class="obf-panel-head">
-            <span class="obf-panel-title" data-i18n="obf_input">▶ INPUT — LUA / LUAU</span>
-            <button class="obf-clear" onclick="clearObfInput()" data-i18n="obf_clear">Clear</button>
-          </div>
-          <textarea class="obf-textarea" id="obfInput" spellcheck="false" data-i18n-placeholder="obf_ph"></textarea>
-        </div>
-        <!-- OUTPUT -->
-        <div class="obf-panel">
-          <div class="obf-panel-head">
-            <span class="obf-panel-title" data-i18n="obf_output">◀ OUTPUT — OBFUSCATED</span>
-            <button class="obf-panel-action" id="obfCopyBtn" onclick="copyObfResult()" data-i18n="obf_copy">Copy</button>
-          </div>
-          <pre class="obf-result placeholder" id="obfResult" data-i18n="obf_idle">// Obfuscated code will appear here...</pre>
-        </div>
-      </div>
-      <div class="obf-footer">
-        <button class="obf-run" id="obfRunBtn" onclick="runObfuscate()" data-i18n="obf_run">⚡ Obfuscate</button>
-        <span class="obf-status" id="obfStatus"></span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
-// ── SOUND ──────────────────────────────────────────────────────
-const SFX_URL = 'https://raw.githubusercontent.com/sladkoeshkaogg-svg/Nexus/main/freesoundsforyou-gravity-coil-sound-195556.mp3';
-const clickAudio = new Audio(SFX_URL);
-clickAudio.volume = 0.45;
-clickAudio.preload = 'auto';
-
-function playClick() {
-  try {
-    clickAudio.currentTime = 0;
-    clickAudio.play().catch(() => {});
-  } catch(e) {}
-}
-
-document.addEventListener('click', function(e) {
-  const t = e.target;
-  if (t.tagName === 'BUTTON' || t.tagName === 'A' || t.closest('button') || t.closest('a')) {
-    playClick();
-  }
-}, true);
-
-// ── I18N ──────────────────────────────────────────────────────
-const i18n = {
+// ── I18N ─────────────────────────────────────────────────────────
+const i18n={
 ru:{
-  nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks', nav_obf:'Obfuscator', nav_scripts:'Scripts',
-  hero_tag:'Лучшие скрипты для Roblox 2026🌙', hero_sub:'Скрипты · Гайды · FAQ',
-  stat_scripts:'скриптов', stat_games:'игр', stat_free:'бесплатно', stat_daily_n:'ежедн.', stat_daily:'обновления',
-  cta_faq:'Q & A ↓', cta_scripts:'Scripts ↗', scroll:'↓ скролл',
-  faq_tag:'Помощь', faq_title:'Часто задаваемые вопросы',
-  modal_title:'✦ SCRIPTS CATALOG ✦', ftap_title:'⚡ FTAP CRACKS — Free-Rezonans ⚡',
-  obf_title:'🔒 OBFUSCATOR — WeAreDevs ⚡',
-  obf_input:'▶ ВВОД — LUA / LUAU', obf_output:'◀ ВЫВОД — ОБФУСЦИРОВАНО',
-  obf_clear:'Очистить', obf_copy:'Копировать', obf_run:'⚡ Обфусцировать',
-  obf_ph:'-- Вставь сюда Lua/Luau скрипт...\nprint("Hello World")',
-  obf_idle:'// Обфусцированный код появится здесь...',
-  search_ph:'Поиск по FAQ...',
+  nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks',
+  nav_faq_badge:'Q&A', nav_scripts:'Scripts',
+  hero_tag:'Лучшие скрипты для Roblox 2026🌙',
+  hero_sub:'Скрипты · Гайды · FAQ',
+  stat_scripts:'скриптов',stat_games:'игр',stat_free:'бесплатно',
+  stat_daily_n:'ежедн.',stat_daily:'обновления',
+  cta_faq:'Q & A ↓',cta_scripts:'Scripts ↗',scroll:'↓ скролл',
+  faq_tag:'Помощь',faq_title:'Часто задаваемые вопросы',
+  modal_title:'✦ SCRIPTS CATALOG ✦',ftap_title:'⚡ FTAP CRACKS — Free-Rezonans ⚡',
   footer_warn:'Материалы предоставлены только в образовательных целях. Используй на свой страх и риск.<br>Мы не несём ответственности за блокировки аккаунтов. Roblox® — торговая марка Roblox Corporation.',
-  q1:'Как запустить скрипт в Roblox?', q2:'Можно ли получить бан за скрипты?', q3:'Какой executor выбрать новичку?',
-  q4:'Скрипт не работает — что делать?', q5:'Работают ли скрипты на телефоне?', q6:'Что такое loadstring и зачем он нужен?',
-  q7:'Как написать собственный скрипт?', q8:'Для каких игр есть скрипты на сайте?', q9:'Все ли скрипты бесплатные?',
+  q1:'Как запустить скрипт в Roblox?',q2:'Можно ли получить бан за скрипты?',q3:'Какой executor выбрать новичку?',
+  q4:'Скрипт не работает — что делать?',q5:'Работают ли скрипты на телефоне?',q6:'Что такое loadstring и зачем он нужен?',
+  q7:'Как написать собственный скрипт?',q8:'Для каких игр есть скрипты на сайте?',q9:'Все ли скрипты бесплатные?',
   q10:'Антивирус блокирует executor — что делать?',
-  a1:'<strong>Шаг 1.</strong> Скачай executor — например, <code>KRNL</code> или <code>Synapse X</code>.<br><strong>Шаг 2.</strong> Запусти Roblox и войди в нужную игру.<br><strong>Шаг 3.</strong> Открой executor, вставь скрипт.<br><strong>Шаг 4.</strong> Нажми <code>Execute</code> — меню скрипта появится в игре!',
-  a2:'Да — Roblox может заблокировать аккаунт. Используй <code>alt-аккаунт</code> и выбирай скрипты с <strong>антибан-защитой</strong>. Большинство скриптов в каталоге имеют Safe Mode.',
+  a1:'<strong>Шаг 1.</strong> Скачай executor — например, <code>KRNL</code> или <code>Synapse X</code>.<br><strong>Шаг 2.</strong> Запусти Roblox и войди в нужную игру.<br><strong>Шаг 3.</strong> Открой executor, вставь скрипт.<br><strong>Шаг 4.</strong> Нажми <code>Execute</code>.',
+  a2:'Да — Roblox может заблокировать аккаунт. Используй <code>alt-аккаунт</code> и выбирай скрипты с <strong>антибан-защитой</strong>.',
   a3:'Для ПК — <code>KRNL</code> (бесплатный) или <code>Fluxus</code>. Максимум? <code>Synapse X</code> / <code>Wave</code>. Android — <code>Delta Executor</code>.',
-  a4:'1. Обнови executor до последней версии<br>2. Проверь совместимость<br>3. Перезайди в игру<br>4. Скрипт мог устареть — мы обновляем <strong>ежедневно</strong>.',
-  a5:'<strong>Android</strong> — <code>Delta Executor</code> или <code>Arceus X</code>. iOS — сложнее из-за ограничений Apple. Скрипты помечены тегами <code>PC</code> и <code>Mobile</code>.',
-  a6:'<code>loadstring</code> загружает код из строки. Вместе с <code>game:HttpGet()</code> позволяет подгружать актуальный скрипт прямо с сервера.',
-  a7:'Roblox использует <strong>Lua</strong>. Изучи синтаксис, затем <code>Roblox API</code> — объекты через <code>game.Players</code>, <code>workspace</code>. Документация: <code>create.roblox.com</code>.',
+  a4:'1. Обнови executor<br>2. Проверь совместимость<br>3. Перезайди в игру<br>4. Скрипт мог устареть — мы обновляем <strong>ежедневно</strong>.',
+  a5:'<strong>Android</strong> — <code>Delta Executor</code> или <code>Arceus X</code>. iOS — сложнее из-за ограничений Apple.',
+  a6:'<code>loadstring</code> загружает код из строки. Вместе с <code>game:HttpGet()</code> позволяет подгружать скрипт с сервера.',
+  a7:'Roblox использует <strong>Lua</strong>. Изучи синтаксис, затем <code>Roblox API</code>. Документация: <code>create.roblox.com</code>.',
   a8:'<code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>MM2</code> и ещё 10+ игр.',
   a9:'Да! Все скрипты абсолютно <strong>бесплатны</strong>. Никакой регистрации — просто нажми «Копировать».',
-  a10:'Это норма — executors внедряются в процессы. Добавь папку в <code>исключения</code> антивируса. Скачивай только с <strong>официального сайта</strong> разработчика.',
+  a10:'Это норма — executors внедряются в процессы. Добавь папку в <code>исключения</code> антивируса. Скачивай только с <strong>официального сайта</strong>.',
 },
 en:{
-  nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks', nav_obf:'Obfuscator', nav_scripts:'Scripts',
-  hero_tag:'Best Roblox Scripts 2026🌙', hero_sub:'Scripts · Guides · FAQ',
-  stat_scripts:'scripts', stat_games:'games', stat_free:'free', stat_daily_n:'daily', stat_daily:'updates',
-  cta_faq:'Q & A ↓', cta_scripts:'Scripts ↗', scroll:'↓ scroll',
-  faq_tag:'Help', faq_title:'Frequently Asked Questions',
-  modal_title:'✦ SCRIPTS CATALOG ✦', ftap_title:'⚡ FTAP CRACKS — Free-Rezonans ⚡',
-  obf_title:'🔒 OBFUSCATOR — WeAreDevs ⚡',
-  obf_input:'▶ INPUT — LUA / LUAU', obf_output:'◀ OUTPUT — OBFUSCATED',
-  obf_clear:'Clear', obf_copy:'Copy', obf_run:'⚡ Obfuscate',
-  obf_ph:'-- Paste your Lua/Luau script here...\nprint("Hello World")',
-  obf_idle:'// Obfuscated code will appear here...',
-  search_ph:'Search FAQ...',
+  nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks',
+  nav_faq_badge:'Q&A', nav_scripts:'Scripts',
+  hero_tag:'Best Roblox Scripts 2026🌙',
+  hero_sub:'Scripts · Guides · FAQ',
+  stat_scripts:'scripts',stat_games:'games',stat_free:'free',
+  stat_daily_n:'daily',stat_daily:'updates',
+  cta_faq:'Q & A ↓',cta_scripts:'Scripts ↗',scroll:'↓ scroll',
+  faq_tag:'Help',faq_title:'Frequently Asked Questions',
+  modal_title:'✦ SCRIPTS CATALOG ✦',ftap_title:'⚡ FTAP CRACKS — Free-Rezonans ⚡',
   footer_warn:'All materials are for educational purposes only. Use at your own risk.<br>We are not responsible for account bans. Roblox® is a trademark of Roblox Corporation.',
-  q1:'How do I run a script in Roblox?', q2:'Can I get banned for using scripts?', q3:'Which executor should a beginner choose?',
-  q4:'The script is not working — what to do?', q5:'Do scripts work on mobile?', q6:'What is loadstring and why is it used?',
-  q7:'How do I write my own Roblox script?', q8:'Which games have scripts on the site?', q9:'Are all scripts free?',
+  q1:'How do I run a script in Roblox?',q2:'Can I get banned for using scripts?',q3:'Which executor should a beginner choose?',
+  q4:'The script is not working — what should I do?',q5:'Do scripts work on mobile?',q6:'What is loadstring and why is it used?',
+  q7:'How do I write my own Roblox script?',q8:'Which games have scripts on the site?',q9:'Are all scripts free?',
   q10:'My antivirus blocks the executor — what to do?',
-  a1:'<strong>Step 1.</strong> Download an executor — e.g. <code>KRNL</code> or <code>Synapse X</code>.<br><strong>Step 2.</strong> Launch Roblox and join the game.<br><strong>Step 3.</strong> Open executor, paste the script.<br><strong>Step 4.</strong> Click <code>Execute</code> — the menu appears in-game!',
-  a2:'Yes — Roblox can ban your account. Use an <code>alt account</code> and choose scripts with built-in <strong>anti-ban protection</strong>. Most scripts in our catalog have Safe Mode.',
+  a1:'<strong>Step 1.</strong> Download an executor — e.g. <code>KRNL</code> or <code>Synapse X</code>.<br><strong>Step 2.</strong> Launch Roblox and join the game.<br><strong>Step 3.</strong> Open executor, paste the script.<br><strong>Step 4.</strong> Click <code>Execute</code>.',
+  a2:'Yes — Roblox can ban your account. Use an <code>alt account</code> and choose scripts with built-in <strong>anti-ban protection</strong>.',
   a3:'PC — <code>KRNL</code> (free) or <code>Fluxus</code>. Best? <code>Synapse X</code> / <code>Wave</code>. Android — <code>Delta Executor</code>.',
-  a4:'1. Update your executor to the latest version<br>2. Check compatibility<br>3. Rejoin the game<br>4. Script may be outdated — we update <strong>daily</strong>.',
-  a5:'<strong>Android</strong> — <code>Delta Executor</code> or <code>Arceus X</code>. iOS — difficult due to Apple restrictions. Scripts are tagged <code>PC</code> and <code>Mobile</code>.',
-  a6:'<code>loadstring</code> loads code from a string. Used with <code>game:HttpGet()</code> to fetch the latest script from a server.',
-  a7:'Roblox uses <strong>Lua</strong>. Learn the syntax, then explore the <code>Roblox API</code> — access objects via <code>game.Players</code>, <code>workspace</code>. Docs: <code>create.roblox.com</code>.',
+  a4:'1. Update your executor<br>2. Check compatibility<br>3. Rejoin the game<br>4. Script may be outdated — we update <strong>daily</strong>.',
+  a5:'<strong>Android</strong> — <code>Delta Executor</code> or <code>Arceus X</code>. iOS — difficult due to Apple restrictions.',
+  a6:'<code>loadstring</code> loads code from a string. Used with <code>game:HttpGet()</code> to pull scripts from the server.',
+  a7:'Roblox uses <strong>Lua</strong>. Learn the syntax, then explore the <code>Roblox API</code>. Docs: <code>create.roblox.com</code>.',
   a8:'<code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>MM2</code> and 10+ more.',
   a9:'Yes! All scripts are completely <strong>free</strong>. No registration — just click "Copy".',
-  a10:'This is normal — executors inject into processes. Add the folder to antivirus <code>exclusions</code>. Download only from the <strong>official site</strong>.',
+  a10:'This is normal — executors inject into processes. Add the folder to your antivirus <code>exclusions</code>. Download only from the <strong>official site</strong>.',
 }};
 
-let currentLang = 'ru';
-function setLang(lang) {
-  currentLang = lang;
-  document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  const t = i18n[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if (t[k] != null) el.textContent = t[k];
-  });
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const k = el.getAttribute('data-i18n-html');
-    if (t[k] != null) el.innerHTML = t[k];
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const k = el.getAttribute('data-i18n-placeholder');
-    if (t[k] != null) el.placeholder = t[k];
-  });
-  document.documentElement.lang = lang;
-  // refresh search drop if open
-  const q = document.getElementById('searchInput').value;
-  if (q) doSearch(q);
+let currentLang='ru';
+function setLang(lang){
+  currentLang=lang;
+  document.getElementById('btn-ru').classList.toggle('active',lang==='ru');
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  const t=i18n[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!=null)el.textContent=t[k];});
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{const k=el.getAttribute('data-i18n-html');if(t[k]!=null)el.innerHTML=t[k];});
+  document.documentElement.lang=lang;
 }
 
-// ── SEARCH ─────────────────────────────────────────────────────
-function doSearch(q) {
-  const drop = document.getElementById('searchDrop');
-  const t = i18n[currentLang];
-  q = q.trim().toLowerCase();
-  if (!q) { drop.classList.remove('visible'); return; }
+// init translations on load
+setLang('ru');
 
-  const keys = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
-  const results = keys.filter(k => t[k].toLowerCase().includes(q));
-
-  if (!results.length) {
-    drop.innerHTML = `<div class="search-none">${currentLang==='ru'?'Ничего не найдено':'No results found'}</div>`;
-    drop.classList.add('visible');
-    return;
-  }
-
-  drop.innerHTML = results.map(k => {
-    const txt = t[k];
-    const idx = txt.toLowerCase().indexOf(q);
-    const before = escHtml(txt.slice(0, idx));
-    const match = escHtml(txt.slice(idx, idx + q.length));
-    const after = escHtml(txt.slice(idx + q.length));
-    return `<div class="search-item" onclick="goToFaq('${k}');document.getElementById('searchDrop').classList.remove('visible');">
-      <span class="search-icon">?</span>
-      <span>${before}<span class="search-highlight">${match}</span>${after}</span>
-    </div>`;
-  }).join('');
-  drop.classList.add('visible');
-}
-
-function goToFaq(qKey) {
-  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('hidden','open'));
-  const target = document.querySelector(`[data-qi="${qKey}"]`);
-  if (!target) return;
-  target.classList.add('open');
-  setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'center'}), 50);
-  document.getElementById('searchInput').value = '';
-  document.getElementById('searchDrop').classList.remove('visible');
-}
-
-document.getElementById('searchInput').addEventListener('input', e => doSearch(e.target.value));
-document.addEventListener('click', e => {
-  if (!document.getElementById('navSearch').contains(e.target))
-    document.getElementById('searchDrop').classList.remove('visible');
-});
-
-// ── SCRIPTS IFRAME MODAL ───────────────────────────────────────
-const SCRIPTS_URL = 'https://htmlpreview.github.io/?https://github.com/sladkoeshkaogg-svg/Nexus/blob/main/index2.html';
-let scriptsLoaded = false;
-function openScriptsModal() {
+// ── SCRIPTS IFRAME MODAL ─────────────────────────────────────────
+const SCRIPTS_URL='https://htmlpreview.github.io/?https://github.com/sladkoeshkaogg-svg/Nexus/blob/main/index2.html';
+let scriptsLoaded=false;
+function openScriptsModal(){
   document.getElementById('scriptsModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (!scriptsLoaded) { document.getElementById('scriptsFrame').src = SCRIPTS_URL; scriptsLoaded = true; }
+  document.body.style.overflow='hidden';
+  if(!scriptsLoaded){document.getElementById('scriptsFrame').src=SCRIPTS_URL;scriptsLoaded=true;}
 }
-function closeScriptsModal() { document.getElementById('scriptsModal').classList.remove('open'); document.body.style.overflow = ''; }
+function closeScriptsModal(){document.getElementById('scriptsModal').classList.remove('open');document.body.style.overflow='';}
 
-// ── FTAP CRACKS ───────────────────────────────────────────────
-const REPO = 'sladkoeshkaogg-svg/Free-Rezonans';
-let ftapLoaded = false;
-let viewedContent = '';
+// ── FTAP CRACKS MODAL ────────────────────────────────────────────
+const REPO='sladkoeshkaogg-svg/Free-Rezonans';
+const RAW_BASE=`https://raw.githubusercontent.com/${REPO}/main/`;
+const API_URL=`https://api.github.com/repos/${REPO}/contents`;
+let ftapLoaded=false;
+let viewedContent='';
 
-function openFtap() { document.getElementById('ftapModal').classList.add('open'); document.body.style.overflow = 'hidden'; if (!ftapLoaded) { loadFtapScripts(); ftapLoaded = true; } }
-function closeFtap() { document.getElementById('ftapModal').classList.remove('open'); document.body.style.overflow = ''; }
+function openFtap(){
+  document.getElementById('ftapModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(!ftapLoaded){loadFtapScripts();ftapLoaded=true;}
+}
+function closeFtap(){document.getElementById('ftapModal').classList.remove('open');document.body.style.overflow='';}
 
-async function loadFtapScripts() {
-  const grid = document.getElementById('ftapGrid');
-  grid.innerHTML = `<div class="ftap-loading"><div class="ftap-spinner"></div><div class="ftap-load-txt">SCANNING REPO...</div></div>`;
-  try {
-    const r = await fetch(`https://api.github.com/repos/${REPO}/contents`);
-    if (!r.ok) throw new Error('GitHub API ' + r.status);
-    const files = (await r.json()).filter(f => f.type === 'file');
-    if (!files.length) { grid.innerHTML = '<div class="ftap-error">No files found.</div>'; return; }
-    grid.innerHTML = '';
-    files.forEach(f => {
-      const ext = f.name.includes('.') ? f.name.split('.').pop() : 'file';
-      const icon = (ext==='luau'||ext==='lua') ? '📜' : ext==='txt' ? '📄' : '📦';
-      const rawUrl = f.download_url || `https://raw.githubusercontent.com/${REPO}/main/${encodeURIComponent(f.name)}`;
-      const tile = document.createElement('div');
-      tile.className = 'script-tile';
-      tile.innerHTML = `
+async function loadFtapScripts(){
+  const grid=document.getElementById('ftapGrid');
+  grid.innerHTML=`<div class="ftap-loading"><div class="ftap-spinner"></div><div class="ftap-load-txt">SCANNING REPO...</div></div>`;
+  try{
+    const r=await fetch(API_URL);
+    if(!r.ok)throw new Error('GitHub API error: '+r.status);
+    const files=await r.json();
+    const fileList=files.filter(f=>f.type==='file');
+    if(!fileList.length){grid.innerHTML='<div class="ftap-error">No files found.</div>';return;}
+    grid.innerHTML='';
+    fileList.forEach(f=>{
+      const ext=f.name.includes('.')?f.name.split('.').pop():'file';
+      const icon=ext==='luau'||ext==='lua'?'📜':ext==='txt'?'📄':'📦';
+      const rawUrl=f.download_url||`${RAW_BASE}${encodeURIComponent(f.name)}`;
+      const tile=document.createElement('div');
+      tile.className='script-tile';
+      tile.innerHTML=`
         <div class="tile-icon">${icon}</div>
-        <div><div class="tile-name">${escHtml(f.name)}</div><div class="tile-ext">.${ext} · raw</div></div>
+        <div>
+          <div class="tile-name">${escHtml(f.name)}</div>
+          <div class="tile-ext">.${ext} &nbsp;·&nbsp; raw</div>
+        </div>
         <div class="tile-actions">
-          <button class="tile-btn tile-btn-view" onclick="viewScript(${JSON.stringify(rawUrl)},${JSON.stringify(f.name)})">Script View</button>
-          <button class="tile-btn tile-btn-copy" onclick="copyTile(this,${JSON.stringify(rawUrl)})">Copy</button>
+          <button class="tile-btn tile-btn-view" onclick="viewScript('${rawUrl}','${escHtml(f.name)}')" data-i18n="btn_view">Script View</button>
+          <button class="tile-btn tile-btn-copy" onclick="copyScript(this,'${rawUrl}')" data-i18n="btn_copy">Copy</button>
         </div>`;
       grid.appendChild(tile);
     });
-  } catch(e) {
-    grid.innerHTML = `<div class="ftap-error">⚠ ${escHtml(e.message)}<br><br>Check network / GitHub API rate limit.</div>`;
+  }catch(e){
+    grid.innerHTML=`<div class="ftap-error">⚠ Failed to load: ${escHtml(e.message)}<br><br>Check network / GitHub API rate limit.</div>`;
   }
 }
 
-async function viewScript(url, name) {
-  const viewer = document.getElementById('scriptViewer');
-  const codeEl = document.getElementById('svCode');
-  document.getElementById('svTitle').textContent = name;
-  codeEl.textContent = 'Loading...';
-  viewedContent = '';
+async function viewScript(url,name){
+  const viewer=document.getElementById('scriptViewer');
+  const code=document.getElementById('svCode');
+  const title=document.getElementById('svTitle');
+  title.textContent=name;
+  code.textContent='Loading...';
+  viewedContent='';
   viewer.classList.add('visible');
-  try {
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    viewedContent = await r.text();
-    codeEl.textContent = viewedContent;
-  } catch(e) { codeEl.textContent = 'Error: ' + e.message; }
+  try{
+    const r=await fetch(url);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const text=await r.text();
+    viewedContent=text;
+    code.textContent=text;
+  }catch(e){code.textContent='Error loading script: '+e.message;}
 }
 
-function closeViewer() { document.getElementById('scriptViewer').classList.remove('visible'); }
+function closeViewer(){document.getElementById('scriptViewer').classList.remove('visible');}
 
-async function copyViewed() {
-  if (!viewedContent) return;
+async function copyViewed(){
+  if(!viewedContent)return;
   await navigator.clipboard.writeText(viewedContent).catch(()=>{});
-  const btn = document.getElementById('svCopyBtn');
-  const orig = btn.textContent; btn.textContent = '✓ Copied!';
-  setTimeout(() => btn.textContent = orig, 2000);
+  const btn=document.getElementById('svCopyBtn');
+  const orig=btn.textContent;btn.textContent='✓ Copied!';
+  setTimeout(()=>btn.textContent=orig,2000);
 }
 
-async function copyTile(btn, url) {
-  try {
-    const r = await fetch(url);
-    const text = await r.text();
+async function copyScript(btn,url){
+  try{
+    const r=await fetch(url);
+    const text=await r.text();
     await navigator.clipboard.writeText(text);
-    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
-  } catch(e) { btn.textContent = 'Error!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+    btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2200);
+  }catch(e){btn.textContent='Error';setTimeout(()=>btn.textContent='Copy',2000);}
 }
 
-// ── OBFUSCATOR ────────────────────────────────────────────────
-function openObf() { document.getElementById('obfModal').classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeObf() { document.getElementById('obfModal').classList.remove('open'); document.body.style.overflow = ''; }
-function clearObfInput() { document.getElementById('obfInput').value = ''; }
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-let obfResultText = '';
-
-async function runObfuscate() {
-  const code = document.getElementById('obfInput').value.trim();
-  if (!code) return;
-  const btn = document.getElementById('obfRunBtn');
-  const status = document.getElementById('obfStatus');
-  const result = document.getElementById('obfResult');
-  const t = i18n[currentLang];
-
-  btn.disabled = true;
-  btn.innerHTML = '<span class="obf-run-spinner"></span>' + (currentLang==='ru'?'Обработка...':'Processing...');
-  status.textContent = '';
-  result.className = 'obf-result placeholder';
-  result.textContent = currentLang==='ru'?'Подключение к серверу...':'Connecting to server...';
-  obfResultText = '';
-
-  try {
-    // Try via corsproxy.io CORS proxy
-    const target = 'https://wearedevs.net/obfuscator';
-    const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(target);
-    const body = new URLSearchParams({ script: code });
-
-    const res = await fetch(proxyUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body.toString()
-    });
-
-    if (!res.ok) throw new Error('Server responded ' + res.status);
-    const html = await res.text();
-
-    // Parse the HTML response to extract obfuscated code
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    let extracted = null;
-
-    // WeAreDevs outputs the result in a textarea with name/id "output" or similar
-    const textareas = Array.from(doc.querySelectorAll('textarea'));
-    for (const ta of textareas) {
-      const val = ta.value || ta.textContent || '';
-      if (val.length > 10 && val !== code) { extracted = val; break; }
-    }
-
-    // Fallback: look for pre/code blocks
-    if (!extracted) {
-      const blocks = Array.from(doc.querySelectorAll('pre, code'));
-      for (const b of blocks) {
-        const txt = b.textContent || '';
-        if (txt.length > code.length && txt !== code) { extracted = txt; break; }
-      }
-    }
-
-    // Fallback: look for any div/p with long content
-    if (!extracted) {
-      const allEls = Array.from(doc.querySelectorAll('[id*="output"],[id*="result"],[class*="output"],[class*="result"]'));
-      for (const el of allEls) {
-        const txt = el.textContent || '';
-        if (txt.length > 20) { extracted = txt; break; }
-      }
-    }
-
-    if (!extracted) throw new Error(currentLang==='ru'?'Не удалось извлечь результат из ответа сервера. Попробуй ещё раз.':'Could not extract result from server response. Try again.');
-
-    // Strip the watermark comment
-    extracted = extracted
-      .replace(/--\[\[\s*v[\d.]+\s*https?:\/\/wearedevs\.net\/obfuscator\s*\]\]\s*\n?/gi, '')
-      .replace(/--\[\[.*?wearedevs.*?\]\]\s*\n?/gi, '')
-      .trim();
-
-    obfResultText = extracted;
-    result.className = 'obf-result';
-    result.textContent = extracted;
-    status.textContent = currentLang==='ru'?'✓ Успешно':'✓ Success';
-    status.style.color = 'rgba(57,255,20,.6)';
-
-  } catch(e) {
-    result.className = 'obf-result error-txt';
-    result.textContent = (currentLang==='ru'?'⚠ Ошибка: ':'⚠ Error: ') + e.message +
-      '\n\n' + (currentLang==='ru'?
-        '→ WeAreDevs может блокировать запросы через прокси.\n→ Попробуй открыть сайт напрямую: https://wearedevs.net/obfuscator':
-        '→ WeAreDevs may block proxy requests.\n→ Try visiting directly: https://wearedevs.net/obfuscator');
-    status.textContent = currentLang==='ru'?'✕ Ошибка':'✕ Failed';
-    status.style.color = 'rgba(244,114,182,.6)';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = t.obf_run;
-    setTimeout(() => { status.textContent = ''; status.style.color = ''; }, 4000);
-  }
-}
-
-async function copyObfResult() {
-  if (!obfResultText) return;
-  const btn = document.getElementById('obfCopyBtn');
-  const t = i18n[currentLang];
-  await navigator.clipboard.writeText(obfResultText).catch(()=>{});
-  btn.textContent = '✓ Copied!'; btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = t.obf_copy; btn.classList.remove('copied'); }, 2200);
-}
-
-// ── ESC CLOSE ─────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeScriptsModal(); closeFtap(); closeObf(); closeViewer(); }
+// ── CLOSE ON ESC ─────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeScriptsModal();closeFtap();closeViewer();}
 });
 
-// ── CURSOR ────────────────────────────────────────────────────
-const cur = document.getElementById('cur'), curR = document.getElementById('cur-r');
-let mx=0, my=0, rx=0, ry=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+// ── CURSOR ───────────────────────────────────────────────────────
+const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 (function loop(){
-  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
-  cur.style.left=mx+'px'; cur.style.top=my+'px';
-  curR.style.left=rx+'px'; curR.style.top=ry+'px';
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  curR.style.left=rx+'px';curR.style.top=ry+'px';
   requestAnimationFrame(loop);
 })();
 
-// ── STARFIELD ─────────────────────────────────────────────────
-const cv = document.getElementById('bg'), cx = cv.getContext('2d');
-let W, H;
-function rsz() { W=cv.width=window.innerWidth; H=cv.height=window.innerHeight; }
-rsz(); window.addEventListener('resize', rsz);
-const STAR_COLORS = ['#fff','#fff','#fff','#88ccff','#aaddff','#ffddaa','#00f5ff','#8b5cf6'];
-const stars = Array.from({length:380}, () => ({
-  x: Math.random()*99999, y: Math.random()*99999,
-  r: Math.random()*1.6+.15, a: Math.random(),
-  da: (Math.random()-.5)*.008,
-  c: STAR_COLORS[Math.floor(Math.random()*STAR_COLORS.length)],
-  spd: Math.random()*.25+.04
+// ── STARFIELD ────────────────────────────────────────────────────
+const cv=document.getElementById('bg'),cx=cv.getContext('2d');
+let W,H;
+function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+
+// multi-layer stars
+const stars=Array.from({length:350},()=>({
+  x:Math.random()*99999%99999,y:Math.random()*99999%99999,
+  r:Math.random()*1.6+.15,a:Math.random(),
+  da:(Math.random()-.5)*.01,
+  c:[
+    '#ffffff','#ffffff','#ffffff',
+    '#88ccff','#aaddff',
+    '#ffddaa','#ffccbb',
+    '#00f5ff','#8b5cf6'
+  ][Math.floor(Math.random()*9)],
+  speed:Math.random()*.3+.05
 }));
-const blobs = Array.from({length:20}, () => ({
-  x: Math.random(), y: Math.random(), r: Math.random()*3+1.5,
-  a: Math.random()*.35, da: (Math.random()-.5)*.004,
-  c: ['#00f5ff','#8b5cf6','#f472b6','#39ff14'][Math.floor(Math.random()*4)]
+
+// cosmic particles (larger glowing blobs)
+const blobs=Array.from({length:18},()=>({
+  x:Math.random(),y:Math.random(),
+  r:Math.random()*3+1.5,a:Math.random()*.4,
+  da:(Math.random()-.5)*.005,
+  c:['#00f5ff','#8b5cf6','#f472b6','#39ff14'][Math.floor(Math.random()*4)]
 }));
-function drawBg() {
-  cv.width = W;
-  blobs.forEach(b => {
-    b.a+=b.da; if(b.a<0||b.a>.35)b.da*=-1; b.a=Math.max(0,Math.min(.35,b.a));
-    cx.save(); cx.globalAlpha=b.a; cx.shadowBlur=22; cx.shadowColor=b.c;
-    cx.fillStyle=b.c; cx.beginPath(); cx.arc(b.x*W,b.y*H,b.r,0,Math.PI*2); cx.fill(); cx.restore();
+
+let frame=0;
+function drawStars(){
+  frame++;
+  cv.width=W; // clears canvas
+  // draw blobs
+  blobs.forEach(b=>{
+    b.a+=b.da;if(b.a<0||b.a>.4)b.da*=-1;b.a=Math.max(0,Math.min(.4,b.a));
+    cx.save();cx.globalAlpha=b.a;
+    cx.shadowBlur=20;cx.shadowColor=b.c;
+    cx.fillStyle=b.c;
+    cx.beginPath();cx.arc(b.x*W,b.y*H,b.r,0,Math.PI*2);cx.fill();
+    cx.restore();
   });
-  stars.forEach(s => {
-    s.x=(s.x+s.spd)%W; s.a+=s.da; if(s.a<0||s.a>1)s.da*=-1; s.a=Math.max(0,Math.min(1,s.a));
-    cx.save(); cx.globalAlpha=s.a*.88; cx.fillStyle=s.c;
+  // draw stars
+  stars.forEach(s=>{
+    s.x=(s.x+s.speed)%W;
+    s.a+=s.da;if(s.a<0||s.a>1)s.da*=-1;s.a=Math.max(0,Math.min(1,s.a));
+    cx.save();cx.globalAlpha=s.a*.9;cx.fillStyle=s.c;
     if(s.r>1){cx.shadowBlur=8;cx.shadowColor=s.c;}
-    cx.beginPath(); cx.arc(s.x,s.y%H,s.r,0,Math.PI*2); cx.fill(); cx.restore();
+    cx.beginPath();cx.arc(s.x,s.y%H,s.r,0,Math.PI*2);cx.fill();
+    cx.restore();
   });
-  requestAnimationFrame(drawBg);
+  requestAnimationFrame(drawStars);
 }
-drawBg();
+drawStars();
 
-// ── SHOOTING STARS ───────────────────────────────────────────
-function shoot() {
-  const el = document.createElement('div');
-  const x=Math.random()*W, y=Math.random()*H*.45, len=100+Math.random()*220;
-  el.style.cssText=`position:fixed;width:${len}px;height:1px;pointer-events:none;z-index:0;left:${x}px;top:${y}px;transform-origin:left center;transform:rotate(26deg);background:linear-gradient(90deg,transparent,rgba(0,245,255,.9),#fff,transparent);`;
+// ── SHOOTING STARS ───────────────────────────────────────────────
+function shoot(){
+  const el=document.createElement('div');
+  const x=Math.random()*W, y=Math.random()*H*.4;
+  const len=120+Math.random()*200;
+  el.style.cssText=`position:fixed;width:${len}px;height:1px;pointer-events:none;z-index:0;
+    left:${x}px;top:${y}px;transform-origin:left center;transform:rotate(25deg);
+    background:linear-gradient(90deg,transparent,rgba(0,245,255,.8),white,transparent);`;
   document.body.appendChild(el);
-  el.animate([{opacity:0,transform:'rotate(26deg) translateX(-30px)'},{opacity:1,offset:.08},{opacity:0,transform:`rotate(26deg) translateX(${len*1.6}px)`}],
-    {duration:380+Math.random()*280,easing:'ease-out'}).onfinish=()=>el.remove();
+  const dur=400+Math.random()*300;
+  el.animate([{opacity:0,transform:'rotate(25deg) translateX(-20px)'},{opacity:1,offset:.1},{opacity:0,transform:`rotate(25deg) translateX(${len*1.5}px)`}],
+    {duration:dur,easing:'ease-out'}).onfinish=()=>el.remove();
 }
-setInterval(shoot, 2000);
+setInterval(shoot,2200);
 
-// ── FAQ TOGGLE ───────────────────────────────────────────────
-function tog(btn) {
-  const item=btn.closest('.faq-item'), isOpen=item.classList.contains('open');
+// ── FAQ TOGGLE ───────────────────────────────────────────────────
+function tog(btn){
+  const item=btn.closest('.faq-item'),isOpen=item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(f=>f.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  if(!isOpen)item.classList.add('open');
 }
 
-// ── SCROLL REVEAL ────────────────────────────────────────────
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0) scale(1)';} });
+// ── SCROLL11 REVEAL ────────────────────────────────────────────────
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0) scale(1)';}});
 },{threshold:.08});
-document.querySelectorAll('.faq-item').forEach((el,i) => {
-  el.style.opacity='0'; el.style.transform='translateY(30px) scale(0.98)';
+document.querySelectorAll('.faq-item').forEach((el,i)=>{
+  el.style.opacity='0';el.style.transform='translateY(30px) scale(0.98)';
   el.style.transition=`opacity .6s ${i*.06}s cubic-bezier(.23,1,.32,1),transform .6s ${i*.06}s cubic-bezier(.23,1,.32,1)`;
   obs.observe(el);
 });
-
-// ── HELPER ───────────────────────────────────────────────────
-function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-
-// ── INIT ─────────────────────────────────────────────────────
-setLang('ru');
 </script>
 </body>
 </html>
