@@ -92,6 +92,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.85rem 2rem;
   border:none;background:transparent;color:rgba(232,240,255,.3);cursor:none;transition:all .22s;line-height:1;}
 .lang-btn.active{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 10px rgba(0,245,255,.3);}
 
+/* NAV SEARCH + KEYS */
+.nav-search{display:flex;align-items:center;gap:.6rem;margin-left:1rem}
+.nav-search input[type=search]{width:180px;padding:6px 10px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:inherit;font-family:'Exo 2',sans-serif}
+.keys-badge{font-family:'Orbitron',sans-serif;font-size:9px;padding:6px 10px;border-radius:12px;background:rgba(255,255,255,.02);border:1px solid rgba(0,245,255,.06);color:var(--gold);margin-left:.5rem}
+
 section{position:relative;z-index:1;}
 
 /* ── HERO ─────────────────────────────────────────────────────── */
@@ -253,6 +258,14 @@ section{position:relative;z-index:1;}
 /* Error state */
 .ftap-error{text-align:center;padding:3rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(244,114,182,.6);}
 
+/* THEMES + SHOP + PROMO MODALS */
+.modal-small .modal-box{width:min(700px,92vw);height:auto}
+.theme-list{display:flex;gap:.6rem;padding:1rem;flex-wrap:wrap}
+.theme-card{padding:.8rem 1rem;border-radius:8px;background:rgba(255,255,255,.02);border:1px solid var(--border);cursor:pointer}
+.shop-grid{display:grid;grid-template-columns:1fr;gap:1rem;padding:1rem}
+.promo-body{padding:1.2rem;display:flex;flex-direction:column;gap:.6rem}
+.promo-input{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:inherit}
+
 /* ── FOOTER ───────────────────────────────────────────────────── */
 footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);z-index:1;position:relative;}
 .f-logo{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;letter-spacing:.4em;
@@ -285,6 +298,10 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
   <ul class="nav-links">
     <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
   </ul>
+  <div class="nav-search">
+    <input id="siteSearch" type="search" placeholder="Поиск..." />
+    <button class="npill npill-scripts" id="btn-games" title="Games" onclick="openGames()">Games</button>
+  </div>
   <div class="nav-right">
     <!-- TG -->
     <a href="https://t.me/FtapPlayers123" target="_blank" class="npill npill-tg" data-i18n="nav_tg">TG</a>
@@ -294,6 +311,14 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
     <a href="#faq" class="npill npill-faq" data-i18n="nav_faq_badge">Q&amp;A</a>
     <!-- Scripts -->
     <button class="npill npill-scripts" onclick="openScriptsModal()" data-i18n="nav_scripts">Scripts</button>
+    <!-- Themes -->
+    <button class="npill npill-faq" id="btn-themes" onclick="openThemes()" data-i18n="nav_themes">Темы</button>
+    <!-- Shop -->
+    <button class="npill npill-ftap" id="btn-shop" onclick="openShop()" data-i18n="nav_shop">Shop</button>
+    <!-- Promo -->
+    <button class="npill npill-tg" id="btn-promo" onclick="openPromo()" data-i18n="nav_promo">Промокод</button>
+    <!-- Keys display -->
+    <div class="keys-badge" id="keysBadge">🔑 0</div>
     <!-- Lang -->
     <div class="lang-toggle">
       <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
@@ -302,53 +327,56 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
   </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <p class="hero-tag" data-i18n="hero_tag">Лучшие скрипты для Roblox 2026🌙</p>
-  <h1 class="hero-h1">RBLX<br>VOID</h1>
-  <p class="hero-sub" data-i18n="hero_sub">Скрипты · Гайды · FAQ</p>
-  <div class="hero-stats">
-    <div class="hstat"><div class="hstat-n">240+</div><div class="hstat-l" data-i18n="stat_scripts">скриптов</div></div>
-    <div class="hstat"><div class="hstat-n">18</div><div class="hstat-l" data-i18n="stat_games">игр</div></div>
-    <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l" data-i18n="stat_free">бесплатно</div></div>
-    <div class="hstat"><div class="hstat-n" data-i18n="stat_daily_n">ежедн.</div><div class="hstat-l" data-i18n="stat_daily">обновления</div></div>
-  </div>
-  <div class="hero-cta">
-    <a href="#faq" class="btn btn-primary" data-i18n="cta_faq">Q &amp; A ↓</a>
-    <button class="btn btn-scripts" onclick="openScriptsModal()" data-i18n="cta_scripts">Scripts ↗</button>
-  </div>
-  <div class="scroll-arrow" data-i18n="scroll">↓ скролл</div>
-</section>
 
-<div class="divider"></div>
+    <!-- THEMES MODAL -->
+    <div class="modal-overlay modal-small" id="themesModal" onclick="if(event.target===this)closeThemes()">
+      <div class="modal-box">
+        <div class="modal-head">
+          <span class="modal-title">Темы / Themes</span>
+          <button class="modal-close" onclick="closeThemes()">✕</button>
+        </div>
+        <div class="ftap-body">
+          <div style="padding:1rem">
+            <div style="margin-bottom:.6rem;color:rgba(232,240,255,.6)">Текущая тема: <span id="curTheme">(по умолчанию)</span></div>
+            <div class="theme-list" id="themeList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- FAQ -->
-<section id="faq">
-  <div class="sec-hd">
-    <span class="sec-tag" data-i18n="faq_tag">Помощь</span>
-    <h2 class="sec-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q1">Как запустить скрипт в Roblox?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a1"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q2">Можно ли получить бан за скрипты?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a2"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q3">Какой executor выбрать новичку?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a3"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q4">Скрипт не работает — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a4"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q5">Работают ли скрипты на телефоне?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a5"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q6">Что такое loadstring и зачем он нужен?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a6"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q7">Как написать собственный скрипт?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a7"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q8">Для каких игр есть скрипты на сайте?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a8"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q9">Все ли скрипты бесплатные?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a9"></p></div></div>
-    <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q10">Антивирус блокирует executor — что делать?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a10"></p></div></div>
-  </div>
-</section>
+    <!-- SHOP MODAL -->
+    <div class="modal-overlay" id="shopModal" onclick="if(event.target===this)closeShop()">
+      <div class="modal-box">
+        <div class="modal-head">
+          <span class="modal-title">Shop — Магазин</span>
+          <button class="modal-close" onclick="closeShop()">✕</button>
+        </div>
+        <div class="ftap-body">
+          <div class="shop-grid" id="shopGrid"></div>
+        </div>
+      </div>
+    </div>
 
-<footer>
-  <div class="f-logo">✦ RBLX VOID ✦</div>
-  <p class="f-warn" data-i18n-html="footer_warn"></p>
-</footer>
+    <!-- PROMO MODAL -->
+    <div class="modal-overlay modal-small" id="promoModal" onclick="if(event.target===this)closePromo()">
+      <div class="modal-box">
+        <div class="modal-head">
+          <span class="modal-title">Промокоды</span>
+          <button class="modal-close" onclick="closePromo()">✕</button>
+        </div>
+        <div class="ftap-body promo-body">
+          <div>Вставьте промокод или нажмите "Сканировать" для автоматического поиска:</div>
+          <input id="promoInput" class="promo-input" placeholder="Введите код, например 1111" />
+          <div style="display:flex;gap:.5rem">
+            <button class="tile-btn tile-btn-copy" onclick="redeemPromo()">Redeem</button>
+            <button class="tile-btn tile-btn-view" onclick="scanPromo()">Scan Remote</button>
+          </div>
+          <div id="promoStatus" style="color:rgba(232,240,255,.6)"></div>
+        </div>
+      </div>
+      </div>
 
-<!-- ── SCRIPTS IFRAME MODAL ──────────────────────────────────── -->
-<div class="modal-overlay" id="scriptsModal" onclick="if(event.target===this)closeScriptsModal()">
+    <div class="modal-overlay" id="scriptsModal" onclick="if(event.target===this)closeScriptsModal()">
   <div class="modal-box">
     <div class="modal-head">
       <span class="modal-title" data-i18n="modal_title">✦ SCRIPTS CATALOG ✦</span>
@@ -387,7 +415,7 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 const i18n={
 ru:{
   nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks',
-  nav_faq_badge:'Q&A', nav_scripts:'Scripts',
+  nav_faq_badge:'Q&A', nav_scripts:'Scripts', nav_themes:'Темы', nav_shop:'Shop', nav_promo:'Промокод',
   hero_tag:'Лучшие скрипты для Roblox 2026🌙',
   hero_sub:'Скрипты · Гайды · FAQ',
   stat_scripts:'скриптов',stat_games:'игр',stat_free:'бесплатно',
@@ -413,7 +441,7 @@ ru:{
 },
 en:{
   nav_faq:'FAQ', nav_tg:'TG', nav_ftap:'Ftap Cracks',
-  nav_faq_badge:'Q&A', nav_scripts:'Scripts',
+  nav_faq_badge:'Q&A', nav_scripts:'Scripts', nav_themes:'Themes', nav_shop:'Shop', nav_promo:'Promo',
   hero_tag:'Best Roblox Scripts 2026🌙',
   hero_sub:'Scripts · Guides · FAQ',
   stat_scripts:'scripts',stat_games:'games',stat_free:'free',
@@ -449,8 +477,92 @@ function setLang(lang){
   document.documentElement.lang=lang;
 }
 
-// init translations on load
-setLang('ru');
+// init translations and saved state on load
+const SAVED_LANG=localStorage.getItem('rv_lang')||'ru';
+setLang(SAVED_LANG);
+// Storage keys
+const STORAGE_KEYS='rv_keys';
+const STORAGE_THEME='rv_theme';
+const STORAGE_PURCHASES='rv_purchases';
+const STORAGE_REDEEMED='rv_redeemed';
+
+// initial state
+let keysCount=parseInt(localStorage.getItem(STORAGE_KEYS)||'0',10)||0;
+let purchases=JSON.parse(localStorage.getItem(STORAGE_PURCHASES)||'[]');
+let redeemed=JSON.parse(localStorage.getItem(STORAGE_REDEEMED)||'[]');
+let promoCodesMap={};
+const PROMO_RAW_URL='https://raw.githubusercontent.com/sladkoeshkaogg-svg/sdouhsxhasdhg9-asyd98-say9-8syd70sD6Sd7806/refs/heads/main/ScriptUltra.luau';
+const SHOP_ITEM={name:'EKonans.luau',url:'https://raw.githubusercontent.com/sladkoeshkaogg-svg/Ekonans/refs/heads/main/EKonans.luau',price:10};
+
+function updateKeysBadge(){document.getElementById('keysBadge').textContent=`🔑 ${keysCount}`}
+updateKeysBadge();
+
+// Language persistence
+function saveLang(lang){localStorage.setItem('rv_lang',lang)}
+const origSetLang=setLang; // wrap to persist
+setLang=(lang)=>{origSetLang(lang);saveLang(lang)};
+
+// THEMES
+const THEMES=[
+  {id:'default',label:'(по умолчанию)',vars:{}},
+  {id:'neon',label:'Neon',vars:{'--cyan':'#00f5ff','--violet':'#8b5cf6','--magenta':'#f472b6','--green':'#39ff14'}},
+  {id:'sunset',label:'Sunset',vars:{'--cyan':'#ff9a9e','--violet':'#ff6a88','--magenta':'#fbc2eb','--gold':'#f59e0b'}},
+  {id:'matrix',label:'Matrix',vars:{'--cyan':'#00ff88','--violet':'#55ff66','--green':'#39ff14'}}
+];
+
+function openThemes(){document.getElementById('themesModal').classList.add('open');document.body.style.overflow='hidden';populateThemes();}
+function closeThemes(){document.getElementById('themesModal').classList.remove('open');document.body.style.overflow='';}
+
+function populateThemes(){const list=document.getElementById('themeList');list.innerHTML='';THEMES.forEach(t=>{const el=document.createElement('div');el.className='theme-card';el.textContent=t.label+' '+(t.id==='default'?'':'');el.onclick=()=>applyTheme(t.id);list.appendChild(el);});
+  const cur=localStorage.getItem(STORAGE_THEME)||'default';document.getElementById('curTheme').textContent=THEMES.find(x=>x.id===cur)?.label||'(по умолчанию)';}
+
+function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];Object.keys(t.vars||{}).forEach(k=>document.documentElement.style.setProperty(k,t.vars[k]));localStorage.setItem(STORAGE_THEME,id);document.getElementById('curTheme').textContent=t.label;closeThemes();}
+
+// apply saved theme
+const savedTheme=localStorage.getItem(STORAGE_THEME)||'default';if(savedTheme!=='default')applyTheme(savedTheme);
+
+// GAMES button
+function openGames(){window.open('https://sladkoeshkaogg-svg.github.io/MyROBLIXGG/','_blank')}
+
+// SHOP
+function openShop(){document.getElementById('shopModal').classList.add('open');document.body.style.overflow='hidden';populateShop();}
+function closeShop(){document.getElementById('shopModal').classList.remove('open');document.body.style.overflow='';}
+function populateShop(){const g=document.getElementById('shopGrid');g.innerHTML='';const card=document.createElement('div');card.className='script-tile';const owned=purchases.includes(SHOP_ITEM.url);
+card.innerHTML=`<div class="tile-icon">🛒</div><div><div class="tile-name">${escHtml(SHOP_ITEM.name)}</div><div class="tile-ext">Цена: ${SHOP_ITEM.price} ключей</div></div><div class="tile-actions">`+
+  (owned?`<button class="tile-btn tile-btn-view" onclick="viewShopScript()">View</button><button class="tile-btn tile-btn-copy" onclick="copyShopScript()">Copy</button>`:`<button class="tile-btn tile-btn-view" onclick="previewShopScript()">Preview</button><button class="tile-btn tile-btn-copy" onclick="buyShopItem(this)">Buy</button>`)+`</div>`;
+g.appendChild(card);
+}
+
+async function fetchText(url){const r=await fetch(url);if(!r.ok)throw new Error('HTTP '+r.status);return await r.text();}
+
+let shopPreviewContent='';
+async function previewShopScript(){const g=document.getElementById('shopGrid');g.innerHTML='<div class="ftap-loading"><div class="ftap-spinner"></div><div class="ftap-load-txt">LOADING...</div></div>';
+  try{shopPreviewContent=await fetchText(SHOP_ITEM.url);g.innerHTML=`<pre style="white-space:pre-wrap;padding:1rem;background:rgba(0,0,0,.5);">${escHtml(shopPreviewContent)}</pre><div style="display:flex;gap:.5rem;margin-top:.6rem"><button class="tile-btn tile-btn-copy" onclick="copyText('${escHtml(SHOP_ITEM.url)}')">Copy Raw</button></div>`;}catch(e){g.innerHTML=`<div class="ftap-error">Failed: ${escHtml(e.message)}</div>`}}
+
+async function buyShopItem(btn){if(keysCount<SHOP_ITEM.price){alert('Not enough keys');return;}try{const txt=await fetchText(SHOP_ITEM.url);keysCount-=SHOP_ITEM.price;localStorage.setItem(STORAGE_KEYS,String(keysCount));purchases.push(SHOP_ITEM.url);localStorage.setItem(STORAGE_PURCHASES,JSON.stringify(purchases));updateKeysBadge();populateShop();alert('Purchased!');}catch(e){alert('Purchase failed: '+e.message);} }
+
+async function viewShopScript(){if(!purchases.includes(SHOP_ITEM.url))return alert('Not purchased');const txt=await fetchText(SHOP_ITEM.url);const g=document.getElementById('shopGrid');g.innerHTML=`<pre style="white-space:pre-wrap;padding:1rem;background:rgba(0,0,0,.5);">${escHtml(txt)}</pre><div style="display:flex;gap:.5rem;margin-top:.6rem"><button class="tile-btn tile-btn-copy" onclick="copyTextFromString()">Copy</button></div>`}
+
+function copyTextFromString(){navigator.clipboard.writeText(shopPreviewContent).catch(()=>{});alert('Copied');}
+function copyShopScript(){fetchText(SHOP_ITEM.url).then(t=>{navigator.clipboard.writeText(t).catch(()=>{});alert('Copied');}).catch(e=>alert('Failed'))}
+function copyText(url){fetchText(url).then(t=>{navigator.clipboard.writeText(t).catch(()=>{});alert('Copied');}).catch(e=>alert('Failed'))}
+
+// PROMO
+async function scanPromo(){document.getElementById('promoStatus').textContent='Scanning remote...';try{const txt=await fetchText(PROMO_RAW_URL);const matches=[...txt.matchAll(/([A-Za-z0-9-_]+)\s*--\s*(\d+)/g)];promoCodesMap={};matches.forEach(m=>promoCodesMap[m[1]]=parseInt(m[2],10));document.getElementById('promoStatus').textContent='Found: '+Object.keys(promoCodesMap).join(', ');}catch(e){document.getElementById('promoStatus').textContent='Scan failed: '+e.message}}
+
+function openPromo(){document.getElementById('promoModal').classList.add('open');document.body.style.overflow='hidden';document.getElementById('promoStatus').textContent='';}
+function closePromo(){document.getElementById('promoModal').classList.remove('open');document.body.style.overflow='';}
+
+function redeemPromo(){const code=document.getElementById('promoInput').value.trim();if(!code)return; if(redeemed.includes(code)){document.getElementById('promoStatus').textContent='Code already used';return;} let v=promoCodesMap[code]; if(!v){document.getElementById('promoStatus').textContent='Code not found in scanned list — trying exact match via remote...';
+  // attempt remote fetch for single code
+  fetch(PROMO_RAW_URL).then(r=>r.text()).then(t=>{const m=new RegExp(code+"\\s*--\\s*(\\d+)").exec(t);if(m){v=parseInt(m[1],10);applyPromo(code,v);}else document.getElementById('promoStatus').textContent='Code not found';}).catch(e=>document.getElementById('promoStatus').textContent='Failed: '+e.message);return;} applyPromo(code,v);}
+
+function applyPromo(code,v){keysCount+=v;localStorage.setItem(STORAGE_KEYS,String(keysCount));redeemed.push(code);localStorage.setItem(STORAGE_REDEEMED,JSON.stringify(redeemed));updateKeysBadge();document.getElementById('promoStatus').textContent=`Redeemed ${code} → +${v} keys`;}
+
+// SEARCH
+document.getElementById('siteSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){performSearch(e.target.value)}});
+function performSearch(q){q=q.trim().toLowerCase();if(!q)return;const faq=Array.from(document.querySelectorAll('.faq-qt'));const match=faq.find(el=>el.textContent.toLowerCase().includes(q));if(match){match.scrollIntoView({behavior:'smooth',block:'center'});match.closest('.faq-item').classList.add('open');document.querySelectorAll('.faq-item').forEach(f=>{if(f!==match.closest('.faq-item'))f.classList.remove('open')});return;}const tiles=Array.from(document.querySelectorAll('.tile-name'));const tmatch=tiles.find(el=>el.textContent.toLowerCase().includes(q));if(tmatch){tmatch.scrollIntoView({behavior:'smooth',block:'center'});return;}alert('No results');}
+
 
 // ── SCRIPTS IFRAME MODAL ─────────────────────────────────────────
 const SCRIPTS_URL='https://htmlpreview.github.io/?https://github.com/sladkoeshkaogg-svg/Nexus/blob/main/index2.html';
