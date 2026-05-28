@@ -32,6 +32,13 @@ body:has(button:hover) #cur,body:has(a:hover) #cur{width:20px;height:20px;backgr
   animation:nebDrift 18s ease-in-out infinite alternate;}
 @keyframes nebDrift{0%{opacity:.7;transform:scale(1)}100%{opacity:1;transform:scale(1.05)}}
 
+/* LANG TOGGLE */
+.lang-toggle{position:fixed;top:1.2rem;right:1.2rem;z-index:200;display:flex;align-items:center;gap:0;
+  border:1px solid rgba(0,245,255,.25);border-radius:50px;overflow:hidden;background:rgba(0,0,12,.7);backdrop-filter:blur(12px);}
+.lang-btn{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.15em;padding:6px 14px;
+  border:none;background:transparent;color:rgba(232,240,255,.35);cursor:none;transition:all .25s;}
+.lang-btn.active{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 12px rgba(0,245,255,.3);}
+
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;
   display:flex;align-items:center;justify-content:space-between;
   background:rgba(0,0,12,.85);backdrop-filter:blur(20px);
@@ -43,8 +50,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;
 .nav-links a{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:.25em;text-transform:uppercase;
   text-decoration:none;color:rgba(232,240,255,.45);transition:color .3s;cursor:none;}
 .nav-links a:hover{color:var(--cyan);}
+.nav-right{display:flex;gap:.7rem;align-items:center;}
 .nav-badge{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;
   font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.2em;padding:5px 14px;border-radius:50px;text-decoration:none;cursor:none;}
+.nav-badge-scripts{background:linear-gradient(135deg,var(--violet),var(--magenta));color:#fff;
+  font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.2em;padding:5px 14px;border-radius:50px;text-decoration:none;cursor:none;border:none;}
 
 section{position:relative;z-index:1;}
 
@@ -75,6 +85,8 @@ section{position:relative;z-index:1;}
   padding:.9rem 2.2rem;border-radius:8px;text-decoration:none;cursor:none;border:none;transition:all .3s;}
 .btn-primary{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;box-shadow:0 0 30px rgba(0,245,255,.3);}
 .btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(0,245,255,.5);}
+.btn-scripts{background:linear-gradient(135deg,var(--violet),var(--magenta));color:#fff;box-shadow:0 0 30px rgba(139,92,246,.3);}
+.btn-scripts:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 50px rgba(244,114,182,.5);}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .scroll-arrow{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
   font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.4em;color:rgba(0,245,255,.4);text-transform:uppercase;
@@ -111,13 +123,36 @@ section{position:relative;z-index:1;}
   background:rgba(0,245,255,.08);padding:2px 7px;border-radius:4px;}
 .faq-ans strong{color:rgba(232,240,255,.75);font-weight:600;}
 
+/* SCRIPTS MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,12,.92);backdrop-filter:blur(20px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .35s ease;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{width:min(1100px,96vw);height:min(85vh,820px);border-radius:16px;
+  border:1px solid rgba(139,92,246,.4);background:rgba(0,0,12,.95);
+  display:flex;flex-direction:column;overflow:hidden;
+  transform:scale(.94) translateY(30px);transition:transform .35s cubic-bezier(.23,1,.32,1);}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.4rem;
+  border-bottom:1px solid rgba(139,92,246,.2);background:rgba(0,0,12,.7);}
+.modal-title{font-family:'Orbitron',sans-serif;font-size:.75rem;letter-spacing:.3em;
+  background:linear-gradient(135deg,var(--violet),var(--magenta));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.modal-close{font-family:'Share Tech Mono',monospace;font-size:1.2rem;color:rgba(232,240,255,.4);
+  background:none;border:none;cursor:none;line-height:1;padding:4px 8px;border-radius:6px;transition:all .2s;}
+.modal-close:hover{color:var(--magenta);background:rgba(244,114,182,.1);}
+.modal-frame{flex:1;border:none;width:100%;background:#00000c;}
+.modal-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;pointer-events:none;}
+.modal-spinner{width:40px;height:40px;border:2px solid rgba(139,92,246,.2);border-top-color:var(--violet);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.modal-load-txt{font-family:'Orbitron',sans-serif;font-size:.7rem;letter-spacing:.3em;color:rgba(232,240,255,.3);}
+
 /* FOOTER */
 footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);z-index:1;position:relative;}
 .f-logo{font-family:'Orbitron',sans-serif;font-size:1.2rem;font-weight:900;letter-spacing:.4em;
   background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .f-warn{font-size:.72rem;color:rgba(232,240,255,.2);margin-top:1.2rem;line-height:1.7;letter-spacing:.05em;}
 
-@media(max-width:650px){nav{padding:1rem 1.2rem;}.nav-links{display:none;}}
+@media(max-width:650px){nav{padding:1rem 1.2rem;}.nav-links{display:none;}.modal-box{height:90vh;}}
 </style>
 </head>
 <body>
@@ -127,30 +162,40 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 <canvas id="bg"></canvas>
 <div class="nebula"></div>
 
+<!-- LANG TOGGLE -->
+<div class="lang-toggle" style="top:1.4rem;right:1.4rem;position:fixed;z-index:200;">
+  <button class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</button>
+  <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="#" class="logo">RBLX VOID</a>
   <ul class="nav-links">
-    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
   </ul>
-  <a href="#faq" class="nav-badge">Вопросы и ответы</a>
+  <div class="nav-right">
+    <a href="#faq" class="nav-badge" data-i18n="nav_faq_badge">Вопросы и ответы</a>
+    <button class="nav-badge-scripts" onclick="openModal()" data-i18n="nav_scripts">Scripts</button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <p class="hero-tag">Лучшие скрипты для Roblox 2026🌙</p>
+  <p class="hero-tag" data-i18n="hero_tag">Лучшие скрипты для Roblox 2026🌙</p>
   <h1 class="hero-h1">RBLX<br>VOID</h1>
-  <p class="hero-sub">Скрипты · Гайды · FAQ</p>
+  <p class="hero-sub" data-i18n="hero_sub">Скрипты · Гайды · FAQ</p>
   <div class="hero-stats">
-    <div class="hstat"><div class="hstat-n">240+</div><div class="hstat-l">скриптов</div></div>
-    <div class="hstat"><div class="hstat-n">18</div><div class="hstat-l">игр</div></div>
-    <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l">бесплатно</div></div>
-    <div class="hstat"><div class="hstat-n">ежедн.</div><div class="hstat-l">обновления</div></div>
+    <div class="hstat"><div class="hstat-n">240+</div><div class="hstat-l" data-i18n="stat_scripts">скриптов</div></div>
+    <div class="hstat"><div class="hstat-n">18</div><div class="hstat-l" data-i18n="stat_games">игр</div></div>
+    <div class="hstat"><div class="hstat-n">100%</div><div class="hstat-l" data-i18n="stat_free">бесплатно</div></div>
+    <div class="hstat"><div class="hstat-n" data-i18n="stat_daily_n">ежедн.</div><div class="hstat-l" data-i18n="stat_daily">обновления</div></div>
   </div>
   <div class="hero-cta">
-    <a href="#faq" class="btn btn-primary">Вопросы и ответы ↓</a>
+    <a href="#faq" class="btn btn-primary" data-i18n="cta_faq">Вопросы и ответы ↓</a>
+    <button class="btn btn-scripts" onclick="openModal()" data-i18n="cta_scripts">Scripts ↗</button>
   </div>
-  <div class="scroll-arrow">↓ скролл</div>
+  <div class="scroll-arrow" data-i18n="scroll">↓ скролл</div>
 </section>
 
 <div class="divider"></div>
@@ -158,18 +203,18 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 <!-- FAQ -->
 <section id="faq">
   <div class="sec-hd">
-    <span class="sec-tag">Помощь</span>
-    <h2 class="sec-title">Часто задаваемые вопросы</h2>
+    <span class="sec-tag" data-i18n="faq_tag">Помощь</span>
+    <h2 class="sec-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
   </div>
   <div class="faq-list">
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Как запустить скрипт в Roblox?</span>
+        <span class="faq-qt" data-i18n="q1">Как запустить скрипт в Roblox?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a1">
           <strong>Шаг 1.</strong> Скачай executor — например, <code>KRNL</code> или <code>Synapse X</code>.<br>
           <strong>Шаг 2.</strong> Запусти Roblox и войди в нужную игру.<br>
           <strong>Шаг 3.</strong> Открой executor, вставь скопированный скрипт в поле ввода.<br>
@@ -180,11 +225,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Можно ли получить бан за скрипты?</span>
+        <span class="faq-qt" data-i18n="q2">Можно ли получить бан за скрипты?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a2">
           Да — Roblox может заблокировать аккаунт. Советуем использовать скрипты на <code>alt-аккаунте</code>, не злоупотреблять ими на публичных серверах и выбирать скрипты с встроенной <strong>антибан-защитой</strong>. Большинство скриптов в нашем каталоге имеют Safe Mode.
         </p>
       </div>
@@ -192,11 +237,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Какой executor выбрать новичку?</span>
+        <span class="faq-qt" data-i18n="q3">Какой executor выбрать новичку?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a3">
           Для ПК — <code>KRNL</code> (бесплатный, стабильный) или <code>Fluxus</code>. Хочешь максимум? Переходи на <code>Synapse X</code> или <code>Wave</code>. Для Android — <code>Delta Executor</code>. Все они совместимы со скриптами нашего сайта.
         </p>
       </div>
@@ -204,11 +249,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Скрипт не работает — что делать?</span>
+        <span class="faq-qt" data-i18n="q4">Скрипт не работает — что делать?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a4">
           Попробуй по порядку:<br>
           1. Обнови executor до последней версии<br>
           2. Убедись, что скрипт совместим с твоим executor'ом<br>
@@ -220,11 +265,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Работают ли скрипты на телефоне?</span>
+        <span class="faq-qt" data-i18n="q5">Работают ли скрипты на телефоне?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a5">
           Да, на <strong>Android</strong>! Используй <code>Delta Executor</code> или <code>Arceus X</code>. На iOS — к сожалению, всё сложнее из-за ограничений Apple. Скрипты в каталоге помечены тегами <code>PC</code> и <code>Mobile</code> — смотри на совместимость.
         </p>
       </div>
@@ -232,11 +277,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Что такое loadstring и зачем он нужен?</span>
+        <span class="faq-qt" data-i18n="q6">Что такое loadstring и зачем он нужен?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a6">
           <code>loadstring</code> — это функция Lua, которая загружает и выполняет код из строки. В скриптах Roblox она используется вместе с <code>game:HttpGet()</code>, чтобы подгрузить актуальный скрипт прямо с сервера. Это позволяет нам обновлять скрипты без необходимости заново копировать код.
         </p>
       </div>
@@ -244,11 +289,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Как написать собственный скрипт для Roblox?</span>
+        <span class="faq-qt" data-i18n="q7">Как написать собственный скрипт для Roblox?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a7">
           Roblox использует язык <strong>Lua</strong>. Начни с изучения базового синтаксиса: переменные, условия, циклы, функции. Затем изучи <code>Roblox API</code> — как обращаться к игровым объектам через <code>game.Players</code>, <code>workspace</code> и т.д. Отличный ресурс — официальная документация <code>create.roblox.com</code>.
         </p>
       </div>
@@ -256,11 +301,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Для каких игр есть скрипты на сайте?</span>
+        <span class="faq-qt" data-i18n="q8">Для каких игр есть скрипты на сайте?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a8">
           В каталоге есть скрипты для <code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>Murder Mystery 2</code> и ещё 10+ игр. Список пополняется ежедневно — следи за обновлениями!
         </p>
       </div>
@@ -268,11 +313,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Все ли скрипты на сайте бесплатные?</span>
+        <span class="faq-qt" data-i18n="q9">Все ли скрипты на сайте бесплатные?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a9">
           Да! Все скрипты в нашем открытом каталоге абсолютно <strong>бесплатны</strong>. Мы не берём денег, не требуем регистрации и не устанавливаем никаких ограничений на копирование. Просто нажми «Копировать» — и скрипт у тебя.
         </p>
       </div>
@@ -280,11 +325,11 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
     <div class="faq-item">
       <button class="faq-btn" onclick="tog(this)">
-        <span class="faq-qt">Что делать, если антивирус блокирует executor?</span>
+        <span class="faq-qt" data-i18n="q10">Что делать, если антивирус блокирует executor?</span>
         <span class="faq-icon">+</span>
       </button>
       <div class="faq-body">
-        <p class="faq-ans">
+        <p class="faq-ans" data-i18n-html="a10">
           Это нормально — большинство executor'ов вызывают срабатывание антивируса, так как они внедряются в процессы. Добавь папку с executor'ом в <code>исключения</code> своего антивируса. Скачивай executor только с <strong>официального сайта</strong> разработчика, чтобы избежать вирусов.
         </p>
       </div>
@@ -295,11 +340,160 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
 <footer>
   <div class="f-logo">✦ RBLX VOID ✦</div>
-  <p class="f-warn">Материалы предоставлены только в образовательных целях. Используй на свой страх и риск.<br>Мы не несём ответственности за блокировки аккаунтов. Roblox® — торговая марка Roblox Corporation.</p>
+  <p class="f-warn" data-i18n="footer_warn">Материалы предоставлены только в образовательных целях. Используй на свой страх и риск.<br>Мы не несём ответственности за блокировки аккаунтов. Roblox® — торговая марка Roblox Corporation.</p>
 </footer>
 
+<!-- SCRIPTS MODAL -->
+<div class="modal-overlay" id="scriptsModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="modal-title" data-i18n="modal_title">✦ SCRIPTS CATALOG ✦</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <iframe
+      id="scriptsFrame"
+      class="modal-frame"
+      src=""
+      title="Scripts"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+  </div>
+</div>
+
 <script>
-// CURSOR
+// ─── TRANSLATIONS ────────────────────────────────────────────────
+const i18n = {
+  ru: {
+    nav_faq: 'FAQ',
+    nav_faq_badge: 'Вопросы и ответы',
+    nav_scripts: 'Scripts',
+    hero_tag: 'Лучшие скрипты для Roblox 2026🌙',
+    hero_sub: 'Скрипты · Гайды · FAQ',
+    stat_scripts: 'скриптов',
+    stat_games: 'игр',
+    stat_free: 'бесплатно',
+    stat_daily_n: 'ежедн.',
+    stat_daily: 'обновления',
+    cta_faq: 'Вопросы и ответы ↓',
+    cta_scripts: 'Scripts ↗',
+    scroll: '↓ скролл',
+    faq_tag: 'Помощь',
+    faq_title: 'Часто задаваемые вопросы',
+    modal_title: '✦ SCRIPTS CATALOG ✦',
+    footer_warn: 'Материалы предоставлены только в образовательных целях. Используй на свой страх и риск.<br>Мы не несём ответственности за блокировки аккаунтов. Roblox® — торговая марка Roblox Corporation.',
+    q1:'Как запустить скрипт в Roblox?',
+    q2:'Можно ли получить бан за скрипты?',
+    q3:'Какой executor выбрать новичку?',
+    q4:'Скрипт не работает — что делать?',
+    q5:'Работают ли скрипты на телефоне?',
+    q6:'Что такое loadstring и зачем он нужен?',
+    q7:'Как написать собственный скрипт для Roblox?',
+    q8:'Для каких игр есть скрипты на сайте?',
+    q9:'Все ли скрипты на сайте бесплатные?',
+    q10:'Что делать, если антивирус блокирует executor?',
+    a1:`<strong>Шаг 1.</strong> Скачай executor — например, <code>KRNL</code> или <code>Synapse X</code>.<br><strong>Шаг 2.</strong> Запусти Roblox и войди в нужную игру.<br><strong>Шаг 3.</strong> Открой executor, вставь скопированный скрипт в поле ввода.<br><strong>Шаг 4.</strong> Нажми кнопку <code>Execute</code>. Меню скрипта появится прямо в игре!`,
+    a2:`Да — Roblox может заблокировать аккаунт. Советуем использовать скрипты на <code>alt-аккаунте</code>, не злоупотреблять ими на публичных серверах и выбирать скрипты с встроенной <strong>антибан-защитой</strong>. Большинство скриптов в нашем каталоге имеют Safe Mode.`,
+    a3:`Для ПК — <code>KRNL</code> (бесплатный, стабильный) или <code>Fluxus</code>. Хочешь максимум? Переходи на <code>Synapse X</code> или <code>Wave</code>. Для Android — <code>Delta Executor</code>. Все они совместимы со скриптами нашего сайта.`,
+    a4:`Попробуй по порядку:<br>1. Обнови executor до последней версии<br>2. Убедись, что скрипт совместим с твоим executor'ом<br>3. Перезайди в игру и выполни скрипт снова<br>4. Проверь — возможно, игра обновилась и скрипт устарел. Мы обновляем все скрипты <strong>ежедневно</strong>.`,
+    a5:`Да, на <strong>Android</strong>! Используй <code>Delta Executor</code> или <code>Arceus X</code>. На iOS — к сожалению, всё сложнее из-за ограничений Apple. Скрипты в каталоге помечены тегами <code>PC</code> и <code>Mobile</code> — смотри на совместимость.`,
+    a6:`<code>loadstring</code> — это функция Lua, которая загружает и выполняет код из строки. В скриптах Roblox она используется вместе с <code>game:HttpGet()</code>, чтобы подгрузить актуальный скрипт прямо с сервера. Это позволяет нам обновлять скрипты без необходимости заново копировать код.`,
+    a7:`Roblox использует язык <strong>Lua</strong>. Начни с изучения базового синтаксиса: переменные, условия, циклы, функции. Затем изучи <code>Roblox API</code> — как обращаться к игровым объектам через <code>game.Players</code>, <code>workspace</code> и т.д. Отличный ресурс — официальная документация <code>create.roblox.com</code>.`,
+    a8:`В каталоге есть скрипты для <code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>Murder Mystery 2</code> и ещё 10+ игр. Список пополняется ежедневно — следи за обновлениями!`,
+    a9:`Да! Все скрипты в нашем открытом каталоге абсолютно <strong>бесплатны</strong>. Мы не берём денег, не требуем регистрации и не устанавливаем никаких ограничений на копирование. Просто нажми «Копировать» — и скрипт у тебя.`,
+    a10:`Это нормально — большинство executor'ов вызывают срабатывание антивируса, так как они внедряются в процессы. Добавь папку с executor'ом в <code>исключения</code> своего антивируса. Скачивай executor только с <strong>официального сайта</strong> разработчика, чтобы избежать вирусов.`,
+  },
+  en: {
+    nav_faq: 'FAQ',
+    nav_faq_badge: 'Q&A',
+    nav_scripts: 'Scripts',
+    hero_tag: 'Best Roblox Scripts 2026🌙',
+    hero_sub: 'Scripts · Guides · FAQ',
+    stat_scripts: 'scripts',
+    stat_games: 'games',
+    stat_free: 'free',
+    stat_daily_n: 'daily',
+    stat_daily: 'updates',
+    cta_faq: 'Q & A ↓',
+    cta_scripts: 'Scripts ↗',
+    scroll: '↓ scroll',
+    faq_tag: 'Help',
+    faq_title: 'Frequently Asked Questions',
+    modal_title: '✦ SCRIPTS CATALOG ✦',
+    footer_warn: 'All materials are provided for educational purposes only. Use at your own risk.<br>We are not responsible for account bans. Roblox® is a trademark of Roblox Corporation.',
+    q1:'How do I run a script in Roblox?',
+    q2:'Can I get banned for using scripts?',
+    q3:'Which executor should a beginner choose?',
+    q4:'The script is not working — what should I do?',
+    q5:'Do scripts work on mobile?',
+    q6:'What is loadstring and why is it used?',
+    q7:'How do I write my own Roblox script?',
+    q8:'Which games have scripts on the site?',
+    q9:'Are all scripts on the site free?',
+    q10:'What should I do if my antivirus blocks the executor?',
+    a1:`<strong>Step 1.</strong> Download an executor — for example, <code>KRNL</code> or <code>Synapse X</code>.<br><strong>Step 2.</strong> Launch Roblox and join the game you want.<br><strong>Step 3.</strong> Open the executor, paste the copied script into the input field.<br><strong>Step 4.</strong> Click <code>Execute</code>. The script menu will appear directly in-game!`,
+    a2:`Yes — Roblox can ban your account. We recommend using scripts on an <code>alt account</code>, avoiding abuse on public servers, and choosing scripts with built-in <strong>anti-ban protection</strong>. Most scripts in our catalog have a Safe Mode.`,
+    a3:`For PC — <code>KRNL</code> (free, stable) or <code>Fluxus</code>. Want the best? Try <code>Synapse X</code> or <code>Wave</code>. For Android — <code>Delta Executor</code>. All are compatible with scripts on our site.`,
+    a4:`Try these steps in order:<br>1. Update your executor to the latest version<br>2. Make sure the script is compatible with your executor<br>3. Rejoin the game and execute the script again<br>4. Check if the game has been updated and the script is outdated. We update all scripts <strong>daily</strong>.`,
+    a5:`Yes, on <strong>Android</strong>! Use <code>Delta Executor</code> or <code>Arceus X</code>. On iOS — unfortunately it's more difficult due to Apple's restrictions. Scripts in the catalog are tagged with <code>PC</code> and <code>Mobile</code> — check compatibility.`,
+    a6:`<code>loadstring</code> is a Lua function that loads and executes code from a string. In Roblox scripts it is used together with <code>game:HttpGet()</code> to pull the latest script directly from the server. This lets us update scripts without needing to copy new code each time.`,
+    a7:`Roblox uses the <strong>Lua</strong> language. Start by learning basic syntax: variables, conditions, loops, functions. Then study the <code>Roblox API</code> — how to access game objects via <code>game.Players</code>, <code>workspace</code>, etc. A great resource is the official docs at <code>create.roblox.com</code>.`,
+    a8:`The catalog includes scripts for <code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>Murder Mystery 2</code> and 10+ more games. The list is updated daily — stay tuned!`,
+    a9:`Yes! All scripts in our open catalog are completely <strong>free</strong>. We charge nothing, require no registration, and place no restrictions on copying. Just click "Copy" and the script is yours.`,
+    a10:`This is normal — most executors trigger antivirus software because they inject into processes. Add the executor folder to your antivirus <code>exclusions</code>. Only download executors from the <strong>official site</strong> of the developer to avoid malware.`,
+  }
+};
+
+let currentLang = 'ru';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  const t = i18n[lang];
+
+  // text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  // html nodes (answers with code/strong)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  // footer warn has <br>
+  const fw = document.querySelector('.f-warn[data-i18n]');
+  if (fw) fw.innerHTML = t['footer_warn'];
+  document.documentElement.lang = lang;
+}
+
+// ─── MODAL ───────────────────────────────────────────────────────
+const SCRIPTS_URL = 'https://htmlpreview.github.io/?https://github.com/sladkoeshkaogg-svg/Nexus/blob/main/index2.html';
+let frameLoaded = false;
+
+function openModal() {
+  const modal = document.getElementById('scriptsModal');
+  const frame = document.getElementById('scriptsFrame');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (!frameLoaded) {
+    frame.src = SCRIPTS_URL;
+    frameLoaded = true;
+  }
+}
+
+function closeModal() {
+  document.getElementById('scriptsModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('scriptsModal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── CURSOR ──────────────────────────────────────────────────────
 const cur=document.getElementById('cur'),curR=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
@@ -308,7 +502,7 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
   curR.style.left=rx+'px';curR.style.top=ry+'px';
   requestAnimationFrame(a);})();
 
-// STARFIELD
+// ─── STARFIELD ───────────────────────────────────────────────────
 const cv=document.getElementById('bg');const cx2=cv.getContext('2d');
 let W,H;
 function rsz(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
@@ -332,7 +526,7 @@ function drawStars(){
 }
 drawStars();
 
-// SHOOTING STARS
+// ─── SHOOTING STARS ──────────────────────────────────────────────
 function shoot(){
   const el=document.createElement('div');
   el.style.cssText=`position:fixed;width:2px;height:2px;background:#fff;border-radius:50%;pointer-events:none;z-index:0;left:${Math.random()*W}px;top:${Math.random()*H*.5}px;`;
@@ -342,7 +536,7 @@ function shoot(){
 }
 setInterval(shoot,2800);
 
-// FAQ TOGGLE
+// ─── FAQ TOGGLE ──────────────────────────────────────────────────
 function tog(btn){
   const item=btn.closest('.faq-item');
   const isOpen=item.classList.contains('open');
@@ -350,7 +544,7 @@ function tog(btn){
   if(!isOpen)item.classList.add('open');
 }
 
-// SCROLL REVEAL
+// ─── SCROLL REVEAL ───────────────────────────────────────────────
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0) scale(1)';}});
 },{threshold:.08});
