@@ -21,6 +21,9 @@
 html{scroll-behavior:smooth;}
 body{background:var(--void);color:#e8f0ff;font-family:'Exo 2',sans-serif;overflow-x:hidden;cursor:none;}
 
+/* ── BW THEME ── */
+html.bw-mode{filter:grayscale(1) contrast(1.1) brightness(0.93);}
+
 #cur{position:fixed;width:10px;height:10px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 15px var(--cyan),0 0 30px var(--cyan);transition:width .2s,height .2s,background .2s;}
 #cur-r{position:fixed;width:36px;height:36px;border:1px solid rgba(0,245,255,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .08s ease,top .08s ease;}
 body:has(button:hover) #cur,body:has(a:hover) #cur{width:18px;height:18px;background:var(--magenta);box-shadow:0 0 20px var(--magenta);}
@@ -38,7 +41,9 @@ body:has(button:hover) #cur,body:has(a:hover) #cur{width:18px;height:18px;backgr
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.7rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:rgba(0,0,12,.88);backdrop-filter:blur(24px);border-bottom:1px solid rgba(0,245,255,.1);box-shadow:0 0 40px rgba(0,245,255,.05);}
-.logo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;letter-spacing:.35em;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;cursor:none;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(0,245,255,.4));}
+.logo{font-family:'Orbitron',sans-serif;font-size:.9rem;font-weight:900;letter-spacing:.35em;background:linear-gradient(135deg,#fff,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none;cursor:none;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(0,245,255,.4));display:flex;align-items:center;gap:.45rem;}
+.logo-icon{width:30px;height:30px;border-radius:8px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,245,255,.25);box-shadow:0 0 10px rgba(0,245,255,.25);filter:none;-webkit-text-fill-color:unset;}
+.logo-icon:not([src]){display:none;}
 .nav-links{display:flex;gap:1.5rem;list-style:none;}
 .nav-links a{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:.25em;text-transform:uppercase;text-decoration:none;color:rgba(232,240,255,.4);transition:color .3s;cursor:none;}
 .nav-links a:hover{color:var(--cyan);}
@@ -169,28 +174,37 @@ section{position:relative;z-index:1;}
 .scripts-grid{flex:1;overflow-y:auto;padding:1.4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;align-content:start;}
 .scripts-grid::-webkit-scrollbar{width:4px;}
 .scripts-grid::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:4px;}
-.script-tile{background:rgba(0,245,255,.03);border:1px solid rgba(0,245,255,.1);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.75rem;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;}
+.script-tile{background:rgba(0,245,255,.03);border:1px solid rgba(0,245,255,.1);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.6rem;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;}
 .script-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,.3),transparent);opacity:0;transition:opacity .25s;}
 .script-tile:hover{border-color:rgba(0,245,255,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,245,255,.08);}
 .script-tile:hover::before{opacity:1;}
 .tile-icon{font-size:1.5rem;}
 .tile-name{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(232,240,255,.85);word-break:break-all;line-height:1.4;}
 .tile-ext{font-size:.65rem;color:rgba(0,245,255,.5);font-family:'Share Tech Mono',monospace;margin-top:.2rem;}
-.tile-actions{display:flex;gap:.5rem;justify-content:space-between;margin-top:auto;}
+.tile-actions{display:flex;gap:.5rem;}
+.tile-ls-row{margin-top:.1rem;}
+.tile-ls-row .tile-btn{width:100%;text-align:center;}
 .tile-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:none;cursor:none;transition:all .2s;flex:1;text-align:center;}
 .tile-btn-view{background:rgba(139,92,246,.15);color:var(--violet);border:1px solid rgba(139,92,246,.25);}
 .tile-btn-view:hover{background:rgba(139,92,246,.3);box-shadow:0 0 12px rgba(139,92,246,.3);}
 .tile-btn-copy{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2);}
 .tile-btn-copy:hover{background:rgba(0,245,255,.25);box-shadow:0 0 12px rgba(0,245,255,.3);}
-.tile-btn-copy.copied{background:rgba(57,255,20,.15);color:var(--green);border-color:rgba(57,255,20,.3);}
+.tile-btn-copy.copied,.tile-btn-ls.copied{background:rgba(57,255,20,.15);color:var(--green);border-color:rgba(57,255,20,.3);}
+/* Loadstring button in tiles */
+.tile-btn-ls{background:rgba(251,191,36,.1);color:var(--gold);border:1px solid rgba(251,191,36,.25);}
+.tile-btn-ls:hover{background:rgba(251,191,36,.25);box-shadow:0 0 12px rgba(251,191,36,.3);}
+
 .script-viewer{position:absolute;inset:0;background:rgba(0,0,12,.97);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);z-index:10;}
 .script-viewer.visible{transform:translateX(0);}
-.sv-head{display:flex;align-items:center;gap:1rem;padding:.9rem 1.4rem;border-bottom:1px solid rgba(0,245,255,.1);flex-shrink:0;}
+.sv-head{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.4rem;border-bottom:1px solid rgba(0,245,255,.1);flex-shrink:0;flex-wrap:wrap;}
 .sv-back{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:.2em;background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.2);color:var(--cyan);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;}
 .sv-back:hover{background:rgba(0,245,255,.2);}
-.sv-title{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(232,240,255,.6);}
-.sv-copy-btn{margin-left:auto;font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.2);color:var(--cyan);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;}
+.sv-title{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:rgba(232,240,255,.6);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sv-copy-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.2);color:var(--cyan);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;white-space:nowrap;}
 .sv-copy-btn:hover{background:rgba(0,245,255,.25);}
+/* Loadstring btn in viewer */
+.sv-ls-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);color:var(--gold);padding:5px 12px;border-radius:6px;cursor:none;transition:all .2s;white-space:nowrap;}
+.sv-ls-btn:hover{background:rgba(251,191,36,.25);box-shadow:0 0 10px rgba(251,191,36,.3);}
 .sv-code{flex:1;overflow-y:auto;padding:1.4rem;font-family:'Share Tech Mono',monospace;font-size:.75rem;line-height:1.7;color:rgba(0,245,255,.8);white-space:pre-wrap;word-break:break-all;}
 .sv-code::-webkit-scrollbar{width:4px;}
 .sv-code::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);border-radius:4px;}
@@ -206,10 +220,10 @@ section{position:relative;z-index:1;}
 #gamesModal .modal-title{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
 /* THEMES MODAL */
-#themesModal .modal-box{width:min(600px,96vw);height:auto;max-height:min(86vh,700px);border:1px solid rgba(244,114,182,.3);background:rgba(0,0,12,.97);box-shadow:0 0 60px rgba(244,114,182,.1);}
+#themesModal .modal-box{width:min(640px,96vw);height:auto;max-height:min(86vh,700px);border:1px solid rgba(244,114,182,.3);background:rgba(0,0,12,.97);box-shadow:0 0 60px rgba(244,114,182,.1);}
 #themesModal .modal-head{border-bottom:1px solid rgba(244,114,182,.15);background:rgba(0,0,12,.7);}
 #themesModal .modal-title{background:linear-gradient(135deg,var(--magenta),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.themes-body{padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:1rem;overflow-y:auto;}
+.themes-body{padding:1.5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1rem;overflow-y:auto;}
 .themes-body::-webkit-scrollbar{width:4px;}
 .themes-body::-webkit-scrollbar-thumb{background:rgba(244,114,182,.2);border-radius:4px;}
 .theme-card{border:2px solid rgba(255,255,255,.08);border-radius:14px;padding:1.2rem 1rem;cursor:none;text-align:center;transition:all .25s;background:rgba(255,255,255,.02);}
@@ -241,8 +255,8 @@ section{position:relative;z-index:1;}
 .shop-item-game{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;}
 .shop-item-price{font-family:'Orbitron',sans-serif;font-size:.85rem;color:var(--gold);display:flex;align-items:center;gap:.3rem;}
 .shop-item-price.free-price{color:var(--green);}
-.shop-item-actions{display:flex;gap:.5rem;margin-top:auto;}
-.shop-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;text-transform:uppercase;padding:6px 12px;border-radius:7px;border:none;cursor:none;transition:all .2s;flex:1;text-align:center;}
+.shop-item-actions{display:flex;gap:.5rem;margin-top:auto;flex-wrap:wrap;}
+.shop-btn{font-family:'Orbitron',sans-serif;font-size:6.5px;letter-spacing:.15em;text-transform:uppercase;padding:6px 12px;border-radius:7px;border:none;cursor:none;transition:all .2s;flex:1;text-align:center;min-width:0;}
 .shop-btn-buy{background:linear-gradient(135deg,rgba(251,191,36,.2),rgba(245,158,11,.2));color:var(--gold);border:1px solid rgba(251,191,36,.3);}
 .shop-btn-buy:hover{background:linear-gradient(135deg,rgba(251,191,36,.35),rgba(245,158,11,.35));box-shadow:0 0 14px rgba(251,191,36,.3);}
 .shop-btn-buy:disabled{opacity:.4;cursor:not-allowed;}
@@ -250,9 +264,15 @@ section{position:relative;z-index:1;}
 .shop-btn-view:hover{background:rgba(139,92,246,.3);}
 .shop-btn-copy{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2);}
 .shop-btn-copy:hover{background:rgba(0,245,255,.25);}
-.shop-btn-copy.copied{background:rgba(57,255,20,.15);color:var(--green);border-color:rgba(57,255,20,.3);}
+.shop-btn-copy.copied,.shop-btn-ls.copied{background:rgba(57,255,20,.15);color:var(--green);border-color:rgba(57,255,20,.3);}
+/* Loadstring btn in shop */
+.shop-btn-ls{background:rgba(251,191,36,.1);color:var(--gold);border:1px solid rgba(251,191,36,.25);}
+.shop-btn-ls:hover{background:rgba(251,191,36,.25);box-shadow:0 0 12px rgba(251,191,36,.3);}
+/* Full-width loadstring row in shop */
+.shop-ls-row{width:100%;margin-top:-.2rem;}
+.shop-ls-row .shop-btn{width:100%;flex:unset;}
 .purchased-badge{position:absolute;top:.7rem;right:.7rem;font-family:'Orbitron',sans-serif;font-size:6px;letter-spacing:.15em;background:rgba(57,255,20,.15);color:var(--green);border:1px solid rgba(57,255,20,.3);padding:3px 8px;border-radius:20px;text-transform:uppercase;}
-/* shop script viewer (reuses sv- classes but inside shop) */
+/* shop script viewer */
 .shop-viewer{position:absolute;inset:0;background:rgba(0,0,12,.97);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.23,1,.32,1);z-index:10;}
 .shop-viewer.visible{transform:translateX(0);}
 
@@ -278,6 +298,7 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
   .themes-body{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
   .search-row{padding:0 1rem;}
   .promo-section{padding:1.5rem 1rem 2rem;}
+  .logo-icon{width:24px;height:24px;}
 }
 </style>
 </head>
@@ -293,7 +314,15 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">RBLX VOID</a>
+  <a href="#" class="logo">
+    <img
+      class="logo-icon"
+      src="https://raw.githubusercontent.com/sladkoeshkaogg-svg/Premium/main/ChatGPT%20Image%208%20%D0%BC%D0%B0%D1%8F%202026%20%D0%B3.%2C%2018_30_17.png"
+      alt="RBLX VOID"
+      onerror="this.style.display='none'"
+    >
+    RBLX VOID
+  </a>
   <ul class="nav-links">
     <li><a href="#faq" data-i18n="nav_faq">FAQ</a></li>
   </ul>
@@ -353,8 +382,6 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
     <span class="sec-tag" data-i18n="faq_tag">Помощь</span>
     <h2 class="sec-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
   </div>
-
-  <!-- SEARCH ROW -->
   <div class="search-row">
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
@@ -362,7 +389,6 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
     </div>
     <button class="search-games-btn" onclick="openGames()" data-i18n="nav_games">🎮 Games</button>
   </div>
-
   <div class="faq-list">
     <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q1">Как запустить скрипт в Roblox?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a1"></p></div></div>
     <div class="faq-item"><button class="faq-btn" onclick="tog(this)"><span class="faq-qt" data-i18n="q2">Можно ли получить бан за скрипты?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-ans" data-i18n-html="a2"></p></div></div>
@@ -406,6 +432,7 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
         <div class="sv-head">
           <button class="sv-back" onclick="closeViewer()">← Back</button>
           <span class="sv-title" id="svTitle"></span>
+          <button class="sv-ls-btn" id="svLsBtn" onclick="copyViewedLoadstring()">📋 Loadstring</button>
           <button class="sv-copy-btn" id="svCopyBtn" onclick="copyViewed()">Copy</button>
         </div>
         <pre class="sv-code" id="svCode">Loading...</pre>
@@ -453,6 +480,7 @@ footer{padding:3.5rem 2rem;text-align:center;border-top:1px solid var(--border);
         <div class="sv-head">
           <button class="sv-back" onclick="closeShopViewer()">← Back</button>
           <span class="sv-title" id="shopSvTitle"></span>
+          <button class="sv-ls-btn" id="shopSvLsBtn" onclick="copyShopViewedLoadstring()">📋 Loadstring</button>
           <button class="sv-copy-btn" id="shopSvCopyBtn" onclick="copyShopViewed()">Copy</button>
         </div>
         <pre class="sv-code" id="shopSvCode">Loading...</pre>
@@ -496,7 +524,8 @@ ru:{
   a8:'<code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>MM2</code> и ещё 10+ игр.',
   a9:'Да! Все скрипты абсолютно <strong>бесплатны</strong>. Никакой регистрации — просто нажми «Копировать».',
   a10:'Это норма — executors внедряются в процессы. Добавь папку в <code>исключения</code> антивируса. Скачивай только с <strong>официального сайта</strong>.',
-  shop_buy:'Купить',shop_view:'Смотреть',shop_copy:'Копировать',shop_purchased:'✓ Куплено',
+  shop_buy:'Купить',shop_view:'Смотреть',shop_copy:'Копировать',shop_loadstring:'📋 Loadstring',
+  shop_purchased:'✓ Куплено',
   shop_not_enough:'Недостаточно ключей!',shop_bought_ok:'Куплено! +доступ к скрипту',
   promo_ok:'✓ Активировано!',promo_used:'Промокод уже использован',promo_invalid:'Неверный промокод',promo_loading:'Проверка...',
 },
@@ -527,7 +556,8 @@ en:{
   a8:'<code>Blox Fruits</code>, <code>Pet Simulator X</code>, <code>Arsenal</code>, <code>Da Hood</code>, <code>Jailbreak</code>, <code>Adopt Me</code>, <code>Brookhaven</code>, <code>MM2</code> and 10+ more.',
   a9:'Yes! All scripts are completely <strong>free</strong>. No registration — just click "Copy".',
   a10:'This is normal — executors inject into processes. Add the folder to your antivirus <code>exclusions</code>. Download only from the <strong>official site</strong>.',
-  shop_buy:'Buy',shop_view:'View',shop_copy:'Copy',shop_purchased:'✓ Purchased',
+  shop_buy:'Buy',shop_view:'View',shop_copy:'Copy',shop_loadstring:'📋 Loadstring',
+  shop_purchased:'✓ Purchased',
   shop_not_enough:'Not enough keys!',shop_bought_ok:'Purchased! Script unlocked',
   promo_ok:'✓ Redeemed!',promo_used:'Code already used',promo_invalid:'Invalid code',promo_loading:'Checking...',
 }};
@@ -564,6 +594,9 @@ const THEMES={
   frost:{nameRu:'Лёд',nameEn:'Frost',emoji:'❄️',
     preview:'linear-gradient(135deg,#88ccff,#4488ff)',
     vars:{'--cyan':'#88ccff','--violet':'#4488ff','--magenta':'#aaddff','--green':'#66bbff','--gold':'#fbbf24'}},
+  bw:{nameRu:'Ч / Б',nameEn:'B & W',emoji:'🖤',
+    preview:'linear-gradient(135deg,#ffffff,#222222)',
+    vars:{'--cyan':'#ffffff','--violet':'#aaaaaa','--magenta':'#dddddd','--green':'#cccccc','--gold':'#bbbbbb'}},
 };
 let currentTheme='void';
 
@@ -573,6 +606,12 @@ function applyTheme(name){
   Object.entries(th.vars).forEach(([p,v])=>root.style.setProperty(p,v));
   currentTheme=name;
   save('theme',name);
+  // Black & white: apply CSS grayscale filter to everything (including canvas/stars)
+  if(name==='bw'){
+    root.classList.add('bw-mode');
+  } else {
+    root.classList.remove('bw-mode');
+  }
   document.querySelectorAll('.theme-card').forEach(c=>c.classList.toggle('active',c.dataset.theme===name));
 }
 
@@ -584,10 +623,13 @@ function renderThemesBody(){
     card.className='theme-card'+(key===currentTheme?' active':'');
     card.dataset.theme=key;
     card.onclick=()=>applyTheme(key);
+    let badge='';
+    if(key==='void') badge='<div class="theme-badge">default</div>';
+    if(key==='bw') badge='<div class="theme-badge">grayscale</div>';
     card.innerHTML=`
       <div class="theme-preview" style="background:${th.preview}">${th.emoji}</div>
       <div class="theme-name">${currentLang==='ru'?th.nameRu:th.nameEn}</div>
-      ${key==='void'?`<div class="theme-badge">default</div>`:''}
+      ${badge}
     `;
     body.appendChild(card);
   });
@@ -671,8 +713,6 @@ async function redeemPromo(){
   showToast(t('promo_ok')+' +'+reward+' 🔑','ok');
   input.value='';
 }
-
-// Allow Enter key in promo input
 document.getElementById('promoInput').addEventListener('keydown',e=>{if(e.key==='Enter')redeemPromo();});
 
 // ── SEARCH ───────────────────────────────────────────────────────
@@ -707,6 +747,8 @@ const REPO='sladkoeshkaogg-svg/Free-Rezonans';
 const API_URL=`https://api.github.com/repos/${REPO}/contents`;
 let ftapLoaded=false;
 let viewedContent='';
+let viewedUrl='';
+
 function openFtap(){document.getElementById('ftapModal').classList.add('open');document.body.style.overflow='hidden';if(!ftapLoaded){loadFtapScripts();ftapLoaded=true;}}
 function closeFtap(){document.getElementById('ftapModal').classList.remove('open');document.body.style.overflow='';}
 
@@ -732,6 +774,9 @@ async function loadFtapScripts(){
         <div class="tile-actions">
           <button class="tile-btn tile-btn-view" onclick="viewScript('${rawUrl}','${escHtml(f.name)}')">View</button>
           <button class="tile-btn tile-btn-copy" onclick="copyScript(this,'${rawUrl}')">Copy</button>
+        </div>
+        <div class="tile-ls-row">
+          <button class="tile-btn tile-btn-ls" onclick="copyLoadstringUrl(this,'${rawUrl}')">📋 Copy Loadstring</button>
         </div>`;
       grid.appendChild(tile);
     });
@@ -739,6 +784,7 @@ async function loadFtapScripts(){
 }
 
 async function viewScript(url,name){
+  viewedUrl=url;
   const viewer=document.getElementById('scriptViewer');
   const code=document.getElementById('svCode');
   document.getElementById('svTitle').textContent=name;
@@ -748,16 +794,41 @@ async function viewScript(url,name){
   catch(e){code.textContent='Error: '+e.message;}
 }
 function closeViewer(){document.getElementById('scriptViewer').classList.remove('visible');}
+
 async function copyViewed(){
   if(!viewedContent)return;
   await navigator.clipboard.writeText(viewedContent).catch(()=>{});
   const btn=document.getElementById('svCopyBtn');const orig=btn.textContent;btn.textContent='✓ Copied!';
   setTimeout(()=>btn.textContent=orig,2000);
 }
+
+async function copyViewedLoadstring(){
+  if(!viewedUrl)return;
+  const ls=`loadstring(game:HttpGet('${viewedUrl}'))()`;
+  await navigator.clipboard.writeText(ls).catch(()=>{});
+  const btn=document.getElementById('svLsBtn');const orig=btn.textContent;btn.textContent='✓ Copied!';
+  setTimeout(()=>btn.textContent=orig,2000);
+  showToast('📋 Loadstring copied!','ok');
+}
+
 async function copyScript(btn,url){
   try{const r=await fetch(url);const text=await r.text();await navigator.clipboard.writeText(text);
     btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('copied');},2200);
   }catch(e){btn.textContent='Error';setTimeout(()=>btn.textContent='Copy',2000);}
+}
+
+// Copy loadstring for a URL (used in tiles)
+async function copyLoadstringUrl(btn,url){
+  const ls=`loadstring(game:HttpGet('${url}'))()`;
+  try{
+    await navigator.clipboard.writeText(ls);
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2200);
+    showToast('📋 Loadstring copied!','ok');
+  }catch(e){
+    btn.textContent='Error';setTimeout(()=>btn.textContent='📋 Copy Loadstring',2000);
+  }
 }
 
 // ── SHOP ─────────────────────────────────────────────────────────
@@ -769,6 +840,7 @@ const SHOP_ITEMS=[
    url:'https://raw.githubusercontent.com/sladkoeshkaogg-svg/Ekonans/refs/heads/main/EKonans.luau'}
 ];
 let shopViewedContent='';
+let shopViewedUrl='';
 
 function openShop(){
   updateKeysDisplay();
@@ -805,7 +877,13 @@ function renderShopGrid(){
              <button class="shop-btn shop-btn-copy" onclick="shopCopyScript(this,'${item.url}')">${t('shop_copy')}</button>`
           :`<button class="shop-btn shop-btn-buy" onclick="buyItem('${item.id}')">${t('shop_buy')} — 🔑 ${item.price}</button>`
         }
-      </div>`;
+      </div>
+      ${owned
+        ?`<div class="shop-ls-row">
+             <button class="shop-btn shop-btn-ls" onclick="shopCopyLoadstring(this,'${item.url}')">${t('shop_loadstring')}</button>
+           </div>`
+        :''
+      }`;
     grid.appendChild(div);
   });
 }
@@ -821,6 +899,7 @@ function buyItem(id){
 }
 
 async function shopViewScript(url,name){
+  shopViewedUrl=url;
   const viewer=document.getElementById('shopViewer');
   const code=document.getElementById('shopSvCode');
   document.getElementById('shopSvTitle').textContent=name;
@@ -830,16 +909,40 @@ async function shopViewScript(url,name){
   catch(e){code.textContent='Error: '+e.message;}
 }
 function closeShopViewer(){document.getElementById('shopViewer').classList.remove('visible');}
+
 async function copyShopViewed(){
   if(!shopViewedContent)return;
   await navigator.clipboard.writeText(shopViewedContent).catch(()=>{});
   const btn=document.getElementById('shopSvCopyBtn');const orig=btn.textContent;btn.textContent='✓ Copied!';
   setTimeout(()=>btn.textContent=orig,2000);
 }
+
+async function copyShopViewedLoadstring(){
+  if(!shopViewedUrl)return;
+  const ls=`loadstring(game:HttpGet('${shopViewedUrl}'))()`;
+  await navigator.clipboard.writeText(ls).catch(()=>{});
+  const btn=document.getElementById('shopSvLsBtn');const orig=btn.textContent;btn.textContent='✓ Copied!';
+  setTimeout(()=>btn.textContent=orig,2000);
+  showToast('📋 Loadstring copied!','ok');
+}
+
 async function shopCopyScript(btn,url){
   try{const r=await fetch(url);const text=await r.text();await navigator.clipboard.writeText(text);
     btn.textContent='✓ Copied!';btn.classList.add('copied');setTimeout(()=>{btn.textContent=t('shop_copy');btn.classList.remove('copied');},2200);
   }catch(e){btn.textContent='Error';setTimeout(()=>btn.textContent=t('shop_copy'),2000);}
+}
+
+async function shopCopyLoadstring(btn,url){
+  const ls=`loadstring(game:HttpGet('${url}'))()`;
+  try{
+    await navigator.clipboard.writeText(ls);
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2200);
+    showToast('📋 Loadstring copied!','ok');
+  }catch(e){
+    btn.textContent='Error';setTimeout(()=>btn.textContent=t('shop_loadstring'),2000);
+  }
 }
 
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -893,7 +996,7 @@ document.querySelectorAll('.faq-item').forEach((el,i)=>{
   obs.observe(el);
 });
 
-// ── INIT: LOAD SAVED STATE ────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────────
 (function init(){
   const savedLang=load('lang','ru');
   setLang(savedLang);
